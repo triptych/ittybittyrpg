@@ -1,0 +1,87 @@
+<html>
+    <head>
+        <title>Save / Load zip files</title>
+        <script src="../../src/lib/jszip.min.js"></script>
+    </head>
+    <body>
+        <h3>Save Load files</h3>
+        <textarea rows=4 cols=30 id="theText"></textarea>
+        </br>
+        Filename:<input type="text"/>
+        <hr/>
+        Save: <button id="savefile">Save the file</button>
+        <hr/>
+        
+        <span>Choose a file (not too big!)</span>
+        <input type="file" id="file" name="file" multiple /><br />
+        <div id="contenttext">
+            loading
+        </div>
+        
+        
+        
+        <hr/>
+        <script>
+            var zip = new JSZip();
+            function savezip (){
+                console.log("savezip called");
+                // create a file and a folder
+                zip.file("nested/hello.txt", document.getElementById('theText').value);
+                
+                var promise = null;
+                
+                    promise = zip.generateAsync({type:"base64"}).then(function (base64) {
+                        window.location = "data:application/zip;base64," + base64;
+                    }, function (err) {
+                        //jQuery("#data_uri").text(err);
+                        console.error("error", err);
+                    });
+                
+                
+                
+            }
+            function displayFileContents(file) {
+                console.log("displayFileContents, file:",file);
+                
+                JSZip.loadAsync(file).then(function(zip){
+                    zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
+                        // $fileContent.append($("<li>", {
+                        //     text : zipEntry.name
+                        // }));
+                        console.log("zipEntry.name", zipEntry.name);
+                        
+                        
+                        if(zipEntry.name.includes(".txt")){
+                            zip.file(zipEntry.name).async("string").then(function(str){
+                                console.log("str:",str);
+                                document.getElementById("contenttext").appendChild(document.createTextNode(str));
+                            });
+                        }
+                    });
+                    
+
+                    
+                    
+                })
+                
+                
+            }
+            document.getElementById("savefile").addEventListener("click",function(){
+                savezip();
+            });
+            
+            document.getElementById("file").addEventListener("change", function(evt){
+                var theContent = document.getElementById("contenttext");
+                console.log("theContent", theContent)
+                while (theContent.firstChild) {theContent.removeChild(theContent.firstChild)};
+                
+                var files = evt.target.files;
+                for(var i=0; i<files.length; i++){
+                    console.log("file:", files[i]);
+                    displayFileContents(files[i]);
+                    
+                }
+            });
+        </script>
+    </body>
+</html>
