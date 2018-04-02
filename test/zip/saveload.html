@@ -7,7 +7,7 @@
         <h3>Save Load files</h3>
         <textarea rows=4 cols=30 id="theText"></textarea>
         </br>
-        Filename:<input type="text"/>
+        Filename:<input type="text" id="zipfilename" value="ibrpg"/> .zip (no spaces!)
         <hr/>
         Save: <button id="savefile">Save the file</button>
         <hr/>
@@ -31,7 +31,14 @@
                 var promise = null;
                 
                     promise = zip.generateAsync({type:"base64"}).then(function (base64) {
-                        window.location = "data:application/zip;base64," + base64;
+                        // window.location = "data:application/zip;base64," + base64;
+                        var theLink = document.createElement("a");
+                        theLink.setAttribute("id", "theDLLink");
+                        theLink.setAttribute("href", "data:application/zip;base64," + base64);
+                        theLink.setAttribute("download", document.getElementById("zipfilename").value+".zip");
+                        theLink.appendChild(document.createTextNode("Click Here To Download"));
+                        document.getElementsByTagName("body")[0].appendChild(theLink);
+                        
                     }, function (err) {
                         //jQuery("#data_uri").text(err);
                         console.error("error", err);
