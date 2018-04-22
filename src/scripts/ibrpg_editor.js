@@ -4,8 +4,59 @@
 let ibrpg = {
     env: {},
     init: function(){
-        console.log('init called!');
-        ibrpg.xx_showNodes();
+        console.log('-- init called!');
+         //ibrpg.xx_showNodes();
+         ibrpg.bindEvents();
+    },
+    bindEvents: function(){
+      console.log("-- bindEvents called.");
+      var items = document.getElementsByClassName("tb-item");
+      console.log("items:", items);
+      console.log(items.length);
+      // for(var i = 0; i < items.length; i++){
+      //   //console.log(i)
+      //   console.log("item id: ",items[i].id);
+      // }
+      // items.forEach(function(elem){
+      //   console.log(elem);
+      // });
+      // Array.prototype.forEach.call(items, function(elem){
+      //   console.log('elem')
+      // });
+      
+      // bind toolbar events 
+      document.getElementsByClassName('toolbar').item(0).addEventListener('click', function(e){
+        console.log("-- toolbar click e:",e);
+        console.log('-- e.target: ', e.target.getAttribute('id'));
+        ibrpg.routeEvent({
+          evt: e.target.getAttribute('id')
+        })
+      })
+    },
+    routeEvent: function(obj){
+      console.log(obj.evt);
+      switch (obj.evt) {
+        case 'new':
+          console.log('new world triggered')
+          break;
+        case 'load':
+          console.log('load an existing world');
+          break;
+        case 'save':
+          console.log('save a world');
+          break;
+        case 'export':
+          console.log('export a world');
+          break;
+        case 'new-node':
+          console.log('create a new node in the world');
+          break;
+        case 'properties':
+          console.log('display the properties window');
+        default:
+          // code
+          console.log('something clicked but I don\'t know what it was');
+      }
     },
     xx_showNodes: function(){
         console.log('xx_showNodes:');
@@ -107,14 +158,20 @@ let ibrpg = {
 
     }
     
+    
 }
 
 
-window.addEventListener("DOMContentLoaded", function(e){
-    console.log("addEventListener:", e);
-    ibrpg.init();
-    // document.getElementById("dungeoncrawl").addEventListener("load", function(){
-    //     console.log("crawl loaded")
-    //     ibrpg.xx_timedUpdate();
-    // });
-});
+// window.addEventListener("DOMContentLoaded", function(e){
+//     console.log("addEventListener:", e);
+    
+//     document.getElementById("dungeoncrawl").addEventListener("load", function(){
+//         //console.log("crawl loaded")
+//         //ibrpg.xx_timedUpdate();
+//         //ibrpg.init();
+//     });
+// });
+
+window.addEventListener("load", function(e){
+  ibrpg.init();  
+})
