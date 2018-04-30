@@ -2,11 +2,81 @@
 /* global cytoscape */
 
 let ibrpg = {
-    env: {},
+    env: {
+      version: '0.01'
+    },
+    world: {
+      name: '',
+      ver: '0.01'
+    },
+    db: null,
+    storage: null,
     init: function(){
         console.log('-- init called!');
          //ibrpg.xx_showNodes();
+         //ibrpg.xx_setUpIndexedDB();
+         ibrpg.setUpLocalStorage();
          ibrpg.bindEvents();
+         
+    },
+    setUpLocalStorage: function(){
+      var storage = window.localStorage;
+      if(storage && storage.getItem('ibrpg')) {
+        ibrpg.storage = JSON.parse(storage.getItem('ibrpg'))
+      } else if(storage){
+        storage.setItem('ibrpg', JSON.stringify({
+          name: 'default',
+          ver: ibrpg.env.version
+        }));
+        ibrpg.storage =JSON.parse(storage.getItem('ibrpg'));
+      }
+    },
+    xx_setUpIndexedDB: function(){
+      // In the following line, you should include the prefixes of implementations you want to test.
+      window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+      // DON'T use "var indexedDB = ..." if you're not in a function.
+      // Moreover, you may need references to some window.IDB* objects:
+      window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: "readwrite"}; // This line should only be needed if it is needed to support the object's constants for older browsers
+      window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+      // (Mozilla has never prefixed these objects, so we don't need window.mozIDB*)
+      
+      if (!window.indexedDB) {
+        console.log("Your browser doesn't support a stable version of IndexedDB. Saving will not work in this version.");
+      }
+      
+      // Let us open our database
+      var request = window.indexedDB.open("IBRPGDatabase", 3);
+      
+      request.onerror = function(event) {
+        // Do something with request.errorCode!
+        console.error("-- request.onerror: ", event );
+        console.error("-- request.onerror: ", request.errorCode );
+      };
+      request.onsuccess = function(event) {
+        // Do something with request.result!
+        console.info("-- request.onsuccess: ", event);
+        console.info("-- request.onsuccess: ", request.result);
+        ibrpg.db = event.target.result;
+        
+        ibrpg.db.onerror = function(event) {
+          // Generic error handler for all errors targeted at this database's
+          // requests!
+          console.error("Database error: " + event.target.errorCode);
+        };
+      };
+      
+      // This event is only implemented in recent browsers   
+      request.onupgradeneeded = function(event) { 
+        // Save the IDBDatabase interface 
+        ibrpg.db = event.target.result;
+
+        // Create an objectStore for this database
+        var objectStore = ibrpg.db.createObjectStore("ibrpg", { 
+          name: "world name",
+          version: "0.01"
+          
+        });
+};
     },
     bindEvents: function(){
       console.log("-- bindEvents called.");
@@ -30,23 +100,47 @@ let ibrpg = {
         console.log('-- e.target: ', e.target.getAttribute('id'));
         ibrpg.routeEvent({
           evt: e.target.getAttribute('id')
-        })
-      })
+        });
+      });
+      
+      document.getElementById("file").addEventListener("change", function(evt){
+                // var theContent = document.getElementById("contenttext");
+                // console.log("theContent", theContent);
+                // while (theContent.firstChild) {
+                //     theContent.removeChild(theContent.firstChild);
+                    
+                // }
+                
+                var files = evt.target.files;
+                for(var i=0; i<files.length; i++){
+                    console.log("file:", files[i]);
+                    ibrpg.importWorld(files[i]);
+                    
+                }
+            });
     },
     routeEvent: function(obj){
       console.log(obj.evt);
       switch (obj.evt) {
         case 'new':
-          console.log('new world triggered')
+          console.log('new world triggered');
+          ibrpg.genNewWorld();
           break;
         case 'load':
           console.log('load an existing world');
+          ibrpg.loadWorld();
           break;
         case 'save':
           console.log('save a world');
+          ibrpg.saveWorld();
           break;
         case 'export':
           console.log('export a world');
+          ibrpg.exportWorld();
+          break;
+        case 'import':
+          console.log('export a world');
+          //ibrpg.importWorld();
           break;
         case 'new-node':
           console.log('create a new node in the world');
@@ -57,6 +151,99 @@ let ibrpg = {
           // code
           console.log('something clicked but I don\'t know what it was');
       }
+      ibrpg.displayWorld();
+    },
+    genNewWorld: function(){
+      var worldTitle = prompt("What do you want to call your world?", "world"+Math.floor(Math.random()*10000));
+      ibrpg.world = {
+        name: worldTitle,
+        ver: ibrpg.env.version
+      }
+      console.log(ibrpg.world);
+    },
+    saveWorld: function(){
+      if(ibrpg.world.name == ''){
+        alert("your world has no name - please create or load a new world with a name");
+      } else {
+        ibrpg.storage = ibrpg.world;
+        window.localStorage.setItem('ibrpg', JSON.stringify(ibrpg.storage));
+        alert("world: ["+ ibrpg.storage.name + "] saved");
+      }
+    },
+    loadWorld: function(){
+      var tempStorage = JSON.parse(window.localStorage.getItem('ibrpg'));
+      
+        if(confirm("Are you sure you want to load? It will destroy your current world")){
+                  
+        ibrpg.storage = tempStorage;
+        ibrpg.world = ibrpg.storage;
+        alert('world: ['+ibrpg.world.name+'] loaded');
+        }
+
+      
+
+    },
+    displayWorld: function(){
+      console.log("displayworld called");
+      document.getElementById('worldName').innerHTML = ibrpg.world.name;
+    },
+    exportWorld: function(){
+      console.log("in exportworld");
+      var zip = new JSZip();
+      zip.folder('ibrpg')
+        .file('index.html', '<html><head><title>'+ibrpg.world.name+'</title><script src="ibrpg.js"></script></head><body><h1>'+ibrpg.world.name+'</h1></body></html>')
+        .file('ibrpg.js', 'var ibrpg=' + JSON.stringify(ibrpg.world));
+      
+      var promise = null;
+      
+      zip.generateAsync({type:"base64"}).then(function (base64) {
+          var theLink = document.createElement("a");
+                        theLink.setAttribute("id", "theDLLink");
+                        theLink.setAttribute("href", "data:application/zip;base64," + base64);
+                        theLink.classList.add("dl-link");
+                        theLink.classList.add("hidden");
+                        theLink.setAttribute("download", ibrpg.world.name+".zip");
+                        theLink.appendChild(document.createTextNode("Click Here To Download"));
+                        //document.getElementsByTagName("body")[0].appendChild(theLink);
+                        document.getElementById('dlbutton').appendChild(theLink);
+                        theLink.click();
+        }, function (err) {
+                        //jQuery("#data_uri").text(err);
+                        console.error("error", err);
+                    });
+    },
+    importWorld: function(file){
+      console.log("ibrpg.importWorld");
+      JSZip.loadAsync(file).then(function(zip){
+        zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
+              // $fileContent.append($("<li>", {
+              //     text : zipEntry.name
+              // }));
+              console.log("zipEntry.name", zipEntry.name);
+              
+              
+              // if(zipEntry.name.includes(".txt")){
+              //     zip.file(zipEntry.name).async("string").then(function(str){
+              //         console.log("str:",str);
+              //         document.getElementById("contenttext").appendChild(document.createTextNode(str));
+              //     });
+              // }
+              if(zipEntry.name.includes(".js")){
+                zip.file(zipEntry.name).async("string").then(function(str){
+                  console.log("str:",str);
+                  jsonString = str.split('var ibrpg=')[1]
+                  ibrpg.world = JSON.parse(jsonString);
+                  ibrpg.displayWorld();
+                });
+                
+              }
+              
+          });
+          
+  
+          
+          
+      });
     },
     xx_showNodes: function(){
         console.log('xx_showNodes:');

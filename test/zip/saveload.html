@@ -22,6 +22,7 @@
         
         <hr/>
         <script>
+        /*global JSZip*/
             var zip = new JSZip();
             function savezip (){
                 console.log("savezip called");
@@ -69,7 +70,7 @@
 
                     
                     
-                })
+                });
                 
                 
             }
@@ -79,8 +80,11 @@
             
             document.getElementById("file").addEventListener("change", function(evt){
                 var theContent = document.getElementById("contenttext");
-                console.log("theContent", theContent)
-                while (theContent.firstChild) {theContent.removeChild(theContent.firstChild)};
+                console.log("theContent", theContent);
+                while (theContent.firstChild) {
+                    theContent.removeChild(theContent.firstChild);
+                    
+                }
                 
                 var files = evt.target.files;
                 for(var i=0; i<files.length; i++){

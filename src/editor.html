@@ -7,6 +7,7 @@
     <link href="style/ibrpg_editor.css" rel="stylesheet" type="text/css" />
     <script src="lib/riot+compiler.min.js"></script>
     <script src="lib/cytoscape.min.js"></script>
+    <script src="lib/jszip.min.js"></script>
   </head>
   <body>
     <div id="ittybittyrpg" class="ibrpg">
@@ -19,10 +20,15 @@
             <li><span id="load" class="tb-item">Load</span></li>
             <li><span id="save" class="tb-item">Save</span></li>
             <li><span id="export" class="tb-item">Export</span></li>
+            <li><span id="import" class="tb-item"><input type="file" id="file" name="file" /><label for="file">Import</label></span></li>
             <li><span class="tb-item-separator">---</span></li>
             <li><span id="new-qnode" class="tb-item">New Node</span></li>
             <li><span id="properties" class="tb-item">Properties</span></li>
           </ul>
+          <div>
+            Name: [<span id='worldName'></span>]
+            <span id="dlbutton"></span>
+          </div>
         </div>
         <div class="grid" id="grid">
           
