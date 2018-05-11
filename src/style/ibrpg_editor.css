@@ -121,6 +121,7 @@ body {
     top: 5px;
     right: 5px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 div.prop-reveal {

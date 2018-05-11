@@ -210,6 +210,10 @@ let ibrpg = {
 
       }
     });
+    
+    document.getElementById('prop-close').addEventListener('click', function(evt){
+      ibrpg.concealProperties();
+    })
   },
   routeEvent: function(obj) {
     console.log(obj.evt);
@@ -258,6 +262,10 @@ let ibrpg = {
       default:
         // code
     }
+  },
+  concealProperties: function(){
+    console.log('conceal properties panel');
+    document.querySelectorAll('.properties')[0].classList.remove('prop-reveal');
   },
   addNode: function() {
     console.log('addNode called');
