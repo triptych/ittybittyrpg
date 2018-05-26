@@ -271,7 +271,7 @@ let ibrpg = {
     thePanel.innerHTML = "";
     thePanel.innerHTML = `
     <div>
-       <span>Name</span>:<b>${tName}</b>
+       <span>Name</span> : <b>${tName}</b>
     </div>
     `;
     
