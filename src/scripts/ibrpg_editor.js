@@ -256,12 +256,25 @@ let ibrpg = {
     switch (type) {
       case Constants.WORLD:
         console.log('display properties of the world');
+        ibrpg.loadProperties(type);
         document.querySelectorAll('.properties')[0].classList.add('prop-reveal');
         break;
       
       default:
         // code
     }
+  },
+  loadProperties: function(type){
+    console.log('loadproperties, type:', type);
+    var thePanel = document.querySelectorAll('.properties .prop-world')[0];
+    var tName = ibrpg.world.name;
+    thePanel.innerHTML = "";
+    thePanel.innerHTML = `
+    <div>
+       <span>Name</span>:<b>${tName}</b>
+    </div>
+    `;
+    
   },
   concealProperties: function(){
     console.log('conceal properties panel');
