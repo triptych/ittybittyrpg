@@ -1,7 +1,9 @@
 /* Iitty Bitty RPG Editor */
 /* global cytoscape */
-const Constants ={
-  WORLD: 'world'
+/* global JSZip */
+const Constants = {
+  WORLD: 'world',
+  ROOM: 'room'
 }
 
 let ibrpg = {
@@ -78,7 +80,7 @@ let ibrpg = {
           selector: 'node',
           style: {
             shape: 'hexagon',
-            'background-color': 'red',
+            'background-color': 'tan',
             label: 'data(id)'
           },
 
@@ -109,6 +111,14 @@ let ibrpg = {
       var node = evt.target;
       console.log('tapped ' + node.id());
     });
+    ibrpg.cy.on('taphold', 'node', function(evt) {
+      var node = evt.target;
+      console.log('taphold ' + node.id());
+      ibrpg.displayProperties({
+        context:Constants.ROOM,
+        target: node
+      })
+    })
   },
   setUpLocalStorage: function() {
     var storage = window.localStorage;
@@ -210,10 +220,10 @@ let ibrpg = {
 
       }
     });
-    
-    document.getElementById('prop-close').addEventListener('click', function(evt){
-      ibrpg.concealProperties();
-    })
+
+    document.getElementById('prop-close').addEventListener('click', function(evt) {
+      ibrpg.concealPropertiesPanel();
+    });
   },
   routeEvent: function(obj) {
     console.log(obj.evt);
@@ -243,8 +253,11 @@ let ibrpg = {
         ibrpg.addNode();
         break;
       case 'properties':
-        console.log('display the properties window');
-        ibrpg.displayProperties(Constants.WORLD)
+        console.log('display the properties window -- world context');
+        ibrpg.displayProperties({
+          context:Constants.WORLD,
+          target: ibrpg.world
+        })
         break;
       default:
         // code
@@ -252,31 +265,58 @@ let ibrpg = {
     }
     ibrpg.displayWorld();
   },
-  displayProperties: function(type){
-    switch (type) {
+  displayProperties: function(obj) {
+    
+    switch (obj.context) {
       case Constants.WORLD:
         console.log('display properties of the world');
-        ibrpg.loadProperties(type);
-        document.querySelectorAll('.properties')[0].classList.add('prop-reveal');
+        ibrpg.loadProperties(obj);
+        //document.querySelectorAll('.properties')[0].classList.add('prop-reveal');
+        ibrpg.revealPropertiesPanel();
         break;
-      
+      case Constants.ROOM:
+        console.log('display properties of the room');
+        console.log('properties:');
+        ibrpg.loadProperties(obj);
+        ibrpg.revealPropertiesPanel();
       default:
         // code
     }
   },
-  loadProperties: function(type){
-    console.log('loadproperties, type:', type);
+  loadProperties: function(obj) {
+    console.log('loadproperties, context:', obj.context);
     var thePanel = document.querySelectorAll('.properties .prop-world')[0];
-    var tName = ibrpg.world.name;
-    thePanel.innerHTML = "";
-    thePanel.innerHTML = `
-    <div>
-       <span>Name</span> : <b>${tName}</b>
-    </div>
-    `;
-    
+
+
+    switch (obj.context) {
+      case Constants.WORLD:
+        var tName = ibrpg.world.name;
+        thePanel.innerHTML = "";
+        thePanel.innerHTML = `
+          <div>
+             <span>Name</span> : <b>${tName}</b>
+          </div>
+          `;
+        break;
+      case Constants.ROOM:
+        var rName =obj.target.id();
+        thePanel.innerHTML = `
+          <div>
+             <span>Room Name</span> : <b>${rName}</b>
+          </div>
+          `;
+        break;
+      default:
+        // code
+        console.log("loadProperties: I don't know what to do?");
+    }
+
   },
-  concealProperties: function(){
+  revealPropertiesPanel: function(){
+    console.log('reveal properties panel');
+    document.querySelectorAll('.properties')[0].classList.add('prop-reveal');
+  },
+  concealPropertiesPanel: function() {
     console.log('conceal properties panel');
     document.querySelectorAll('.properties')[0].classList.remove('prop-reveal');
   },
