@@ -12,7 +12,8 @@ let ibrpg = {
   },
   world: {
     name: '',
-    ver: '0.01'
+    ver: '0.01',
+    cy: {}
   },
   db: null,
   storage: null,
@@ -351,6 +352,7 @@ let ibrpg = {
       alert("your world has no name - please create or load a new world with a name");
     }
     else {
+      ibrpg.world.cy = ibrpg.cy.json();
       ibrpg.storage = ibrpg.world;
       window.localStorage.setItem('ibrpg', JSON.stringify(ibrpg.storage));
       alert("world: [" + ibrpg.storage.name + "] saved");
@@ -363,6 +365,7 @@ let ibrpg = {
 
       ibrpg.storage = tempStorage;
       ibrpg.world = ibrpg.storage;
+      ibrpg.cy.json(ibrpg.world.cy);
       alert('world: [' + ibrpg.world.name + '] loaded');
     }
 
@@ -417,8 +420,10 @@ let ibrpg = {
         if (zipEntry.name.includes(".js")) {
           zip.file(zipEntry.name).async("string").then(function(str) {
             console.log("str:", str);
-            jsonString = str.split('var ibrpg=')[1]
+            var jsonString = str.split('var ibrpg=')[1]
+            console.log("jsonString:", jsonString);
             ibrpg.world = JSON.parse(jsonString);
+            ibrpg.cy.json(ibrpg.world.cy);
             ibrpg.displayWorld();
           });
 
