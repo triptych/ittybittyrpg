@@ -116,7 +116,7 @@ let ibrpg = {
       var node = evt.target;
       console.log('taphold ' + node.id());
       ibrpg.displayProperties({
-        context:Constants.ROOM,
+        context: Constants.ROOM,
         target: node
       })
     })
@@ -222,9 +222,29 @@ let ibrpg = {
       }
     });
 
-    document.getElementById('prop-close').addEventListener('click', function(evt) {
-      ibrpg.concealPropertiesPanel();
-    });
+    // property window listeners
+
+    document.getElementsByClassName('properties')[0].addEventListener('click', function(evt){
+      console.log("properties click listner-- event obj:", evt);
+      switch (evt.target.classList[0]) {
+        case 'editable':
+          // code
+          console.log('properties window clicked editable');
+          ibrpg.editPropertiesField(evt.target);
+          break;
+        case 'close':
+          console.log('properties window clicked close x');
+          ibrpg.concealPropertiesPanel();
+          break;
+        default:
+          // code
+          console.log('clicked something else?')
+      }
+    })
+
+    // document.getElementById('prop-close').addEventListener('click', function(evt) {
+    //   ibrpg.concealPropertiesPanel();
+    // });
   },
   routeEvent: function(obj) {
     console.log(obj.evt);
@@ -256,7 +276,7 @@ let ibrpg = {
       case 'properties':
         console.log('display the properties window -- world context');
         ibrpg.displayProperties({
-          context:Constants.WORLD,
+          context: Constants.WORLD,
           target: ibrpg.world
         })
         break;
@@ -267,7 +287,7 @@ let ibrpg = {
     ibrpg.displayWorld();
   },
   displayProperties: function(obj) {
-    
+
     switch (obj.context) {
       case Constants.WORLD:
         console.log('display properties of the world');
@@ -300,12 +320,20 @@ let ibrpg = {
           `;
         break;
       case Constants.ROOM:
-        var rName =obj.target.id();
+        var rName = obj.target.id();
+        var rTitleText = obj.target.data('titleText');
         thePanel.innerHTML = `
-          <div>
-             <span>Room Name</span> : <b>${rName}</b>
+          <div data-value='${rName}' data-key='id' data-room='${rName}'>
+             <span>Room Name</span> : <b>${rName}</b> <i class='editable'>edit</i>
+          </div>
+          <div data-value='${rTitleText}' data-key='titleText' data-room='${rName}'>
+            <span> Room Title Text</span> : <b> ${rTitleText}</b> <i class='editable'>edit</i>
           </div>
           `;
+          // ${Array(5).join(0).split(0).map((item, i) => `
+          //   <div>I am item number ${i}.</div>
+          // `).join('')}
+          // `;
         break;
       default:
         // code
@@ -313,7 +341,7 @@ let ibrpg = {
     }
 
   },
-  revealPropertiesPanel: function(){
+  revealPropertiesPanel: function() {
     console.log('reveal properties panel');
     document.querySelectorAll('.properties')[0].classList.add('prop-reveal');
   },
@@ -420,7 +448,7 @@ let ibrpg = {
         if (zipEntry.name.includes(".js")) {
           zip.file(zipEntry.name).async("string").then(function(str) {
             console.log("str:", str);
-            var jsonString = str.split('var ibrpg=')[1]
+            var jsonString = str.split('var ibrpg=')[1];
             console.log("jsonString:", jsonString);
             ibrpg.world = JSON.parse(jsonString);
             ibrpg.cy.json(ibrpg.world.cy);
@@ -435,6 +463,21 @@ let ibrpg = {
 
 
     });
+  },
+  editPropertiesField: function(obj){
+    console.log('editPropertiesField -- ', obj);
+    var dataNode = obj.parentNode;
+    var cyId = dataNode.dataset.room;
+    console.log('editPropertiesField - dataNode:', dataNode);
+    // var dataSet = dataNode.dataset;
+    console.log('editPropertiesField - dataSet:', dataNode.dataset);
+    var oldValue = dataNode.dataset.value;
+    var newValue = prompt("update field:", dataNode.dataset.value);
+    dataNode.dataset.value = newValue;
+    dataNode.querySelector("b").innerHTML = newValue;
+    // update cy data
+    ibrpg.cy.getElementById(cyId).data(dataNode.dataset.key, newValue);
+    
   },
   xx_showNodes: function() {
     console.log('xx_showNodes:');
@@ -535,19 +578,10 @@ let ibrpg = {
   }
 
 
-}
+};
 
 
-// window.addEventListener("DOMContentLoaded", function(e){
-//     console.log("addEventListener:", e);
-
-//     document.getElementById("dungeoncrawl").addEventListener("load", function(){
-//         //console.log("crawl loaded")
-//         //ibrpg.xx_timedUpdate();
-//         //ibrpg.init();
-//     });
-// });
 
 window.addEventListener("load", function(e) {
   ibrpg.init();
-})
+});
