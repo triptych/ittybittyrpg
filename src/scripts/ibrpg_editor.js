@@ -592,13 +592,14 @@ let ibrpg = {
 
 
 
-window.addEventListener("load", function(e) {
-  ibrpg.init();
-});
+
 
 
 import previewWorld from './modules/preview.js';
 ibrpg.previewWorld = previewWorld;
 
-ibrpg.previewWorld({a:'d'})
+
+window.addEventListener("load", function(e) {
+  ibrpg.init();
+});
 

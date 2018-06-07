@@ -1,4 +1,10 @@
 /* Preview world in a new window */
+/**
+ * Pass in to preview the ibrpg object from main
+ * create a window and populate it with ibrpg data
+ */
+ 
+ 
 export default function (obj){
     console.log(" preview world called obj:",obj);
     obj.preview = window.open("","preview");
@@ -9,5 +15,8 @@ export default function (obj){
       <h1>${title}</h1>
     </div>
     `;
+    
+    
+    
     obj.preview.document.body.innerHTML = outPut;
   }
