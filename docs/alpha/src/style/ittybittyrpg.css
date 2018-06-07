@@ -1,0 +1,16 @@
+/** styles for ittybittyrpg **/
+body {
+    font-family: 'Gentium Book Basic', serif;
+    background-color: #f7efd3;
+    color: #475c6c;
+}
+
+#ittybittyrpg {
+    border: 1px solid black;
+    width: calc(12 * 32px);
+    height: calc(12 * 32px);
+}
+
+.datastore {
+    display: none;
+}
