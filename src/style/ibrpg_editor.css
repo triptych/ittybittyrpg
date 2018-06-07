@@ -124,6 +124,10 @@ body {
     cursor: pointer;
 }
 
+.properties .editable {
+    cursor: pointer;
+}
+
 div.prop-reveal {
     z-index: 10;
     opacity: 1;
