@@ -228,6 +228,7 @@ let ibrpg = {
 
     // property window listeners
 
+
     document.getElementsByClassName('properties')[0].addEventListener('click', function(evt) {
       console.log("properties click listner-- event obj:", evt);
       switch (evt.target.classList[0]) {
@@ -343,6 +344,7 @@ let ibrpg = {
         //   <div>I am item number ${i}.</div>
         // `).join('')}
         // `;
+
         break;
       default:
         // code
@@ -486,7 +488,6 @@ let ibrpg = {
     dataNode.querySelector("b").innerHTML = newValue;
     // update cy data
     ibrpg.cy.getElementById(cyId).data(dataNode.dataset.key, newValue);
-
   },
   xx_showNodes: function() {
     console.log('xx_showNodes:');
@@ -595,7 +596,9 @@ window.addEventListener("load", function(e) {
   ibrpg.init();
 });
 
+
 import previewWorld from './modules/preview.js';
 ibrpg.previewWorld = previewWorld;
 
 ibrpg.previewWorld({a:'d'})
+
