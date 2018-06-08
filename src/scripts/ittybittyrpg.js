@@ -382,7 +382,7 @@ window.addEventListener("DOMContentLoaded", function(e){
 //     ibrpg.xx_renderLayer();
 // });
 
-window.addEventListener("keydown", function(e){
+window.addEventListener("keydown", function(event){
     console.log("keydown");
     const keyName = event.key;
     const keyCode = event.keyCode;
@@ -437,6 +437,6 @@ window.addEventListener("keydown", function(e){
         ibrpg.xx_loadLevel();
     }
     
-    e.preventDefault();
+    event.preventDefault();
 });
 
