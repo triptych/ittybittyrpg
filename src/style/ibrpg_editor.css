@@ -81,6 +81,9 @@ body {
     text-shadow: 2px 2px 2px #000;
 }
 
+.ibrpg .editor .toolbar ul li span {
+    user-select: none;
+}
 
 .ibrpg .grid {
     height: 75vh;

@@ -252,7 +252,7 @@ let ibrpg = {
     // });
   },
   routeEvent: function(obj) {
-    console.log(obj.evt);
+    console.log("routeEvent: obj:", obj.evt);
     switch (obj.evt) {
       case 'new':
         console.log('new world triggered');
