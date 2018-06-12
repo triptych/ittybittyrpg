@@ -36,51 +36,7 @@ let ibrpg = {
     ibrpg.cy = cytoscape({
       container: document.getElementById('grid'),
       group: 'nodes',
-      elements: [
-        // // nodes
-        // { data: { id: 'a' } },
-        // { data: { id: 'b' } },
-        // { data: { id: 'c' } },
-        // { data: { id: 'd' } },
-        // { data: { id: 'e' } },
-        // { data: { id: 'f' } },
-        // // edges
-        // {
-        //   data: {
-        //     id: 'ab',
-        //     source: 'a',
-        //     target: 'b'
-        //   }
-        // },
-        // {
-        //   data: {
-        //     id: 'cd',
-        //     source: 'c',
-        //     target: 'd'
-        //   }
-        // },
-        // {
-        //   data: {
-        //     id: 'ef',
-        //     source: 'e',
-        //     target: 'f'
-        //   }
-        // },
-        // {
-        //   data: {
-        //     id: 'ac',
-        //     source: 'a',
-        //     target: 'c'
-        //   }
-        // },
-        // {
-        //   data: {
-        //     id: 'be',
-        //     source: 'b',
-        //     target: 'e'
-        //   }
-        // }
-      ],
+      elements: [],
       style: [{
           selector: 'node',
           style: {
@@ -332,6 +288,14 @@ let ibrpg = {
       case Constants.ROOM:
         var rName = obj.target.id();
         var rTitleText = obj.target.data('titleText');
+        var nodes = ``;
+        console.log("nodes: id",ibrpg.cy.nodes());
+        console.log("filer on node: ", ibrpg.cy.filter("node"));
+        ibrpg.cy.nodes().each(function(itm,idx,coll){
+          console.log("ele id:", itm.id());
+          nodes += `<option value=${itm.id()}>${itm.id()}</option>`;
+        });
+        
         thePanel.innerHTML = `
           <div data-value='${rName}' data-key='id' data-room='${rName}'>
              <span>Room Name</span> : <b>${rName}</b> <i class='editable'>edit</i>
@@ -339,11 +303,17 @@ let ibrpg = {
           <div data-value='${rTitleText}' data-key='titleText' data-room='${rName}'>
             <span> Room Title Text</span> : <b> ${rTitleText}</b> <i class='editable'>edit</i>
           </div>
+          <hr/>
+          <div>
+            <label>Link to another node</label>
+            <select>${nodes}</select>
+          </div>
           `;
         // ${Array(5).join(0).split(0).map((item, i) => `
         //   <div>I am item number ${i}.</div>
         // `).join('')}
         // `;
+
 
         break;
       default:
@@ -380,6 +350,8 @@ let ibrpg = {
       name: worldTitle,
       ver: ibrpg.env.version
     }
+    ibrpg.cy.elements().remove();
+    //ibrpg.cy.layout();
     console.log(ibrpg.world);
   },
   genCtyoModel: function() {
@@ -426,7 +398,7 @@ let ibrpg = {
       .file('index.html', ibrpg.buildPlayerCode(ibrpg))
       .file('ibrpg.js', 'var ibrpg=' + JSON.stringify(ibrpg.world))
       .file('core.js', ibrpg.buildPlayerScript(ibrpg));
-      
+
 
     var promise = null;
 
@@ -604,14 +576,13 @@ let ibrpg = {
 import previewWorld from './modules/preview.js';
 ibrpg.previewWorld = previewWorld;
 
-import {buildCode} from './modules/player/html.js';
+import { buildCode } from './modules/player/html.js';
 ibrpg.buildPlayerCode = buildCode;
 //console.log(ibrpg_player)
 
-import {buildScript} from './modules/player/core.js';
+import { buildScript } from './modules/player/core.js';
 ibrpg.buildPlayerScript = buildScript;
 
 window.addEventListener("load", function(e) {
   ibrpg.init();
 });
-

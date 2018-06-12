@@ -1,3 +1,4 @@
+/* ibrpg player html */
 export function buildCode(obj){
     return `
 <script src='ibrpg.js'></script>
