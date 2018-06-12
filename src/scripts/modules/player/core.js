@@ -14,6 +14,14 @@
 
 export function buildScript(obj){
     return `
-    alert("hello");
+    let player = {
+        init: function(e){
+            console.log("init called");
+            console.log("ibrpg data:", ibrpg);
+        }
+    }
+    window.addEventListener("load", function(e) {
+        player.init();
+    });
 `;
 }
