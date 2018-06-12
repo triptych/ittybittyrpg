@@ -10,13 +10,16 @@ export default function (obj){
     obj.preview = window.open("","preview");
     //ibrpg.preview.document.body.innerHTML = "Hello world";
     var title = obj.world.name;
-    var outPut = `
-    <div>
-      <h1>${title}</h1>
-    </div>
-    `;
-    
+    // var outPut = `
+    // <div>
+    //   <h1>${title}</h1>
+    // </div>
+    // `;
+ 
+    var outPut = obj.buildPlayerCode(obj);   
     
     
     obj.preview.document.body.innerHTML = outPut;
+    console.log("insertion complete")
+    obj.preview.postMessage("foobarrr","*");
   }

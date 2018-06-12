@@ -418,9 +418,15 @@ let ibrpg = {
   exportWorld: function() {
     console.log("in exportworld");
     var zip = new JSZip();
+    // zip.folder('ibrpg')
+    //   .file('index.html', '<html><head><title>' + ibrpg.world.name + '</title><script src="ibrpg.js"></script></head><body><h1>' + ibrpg.world.name + '</h1></body></html>')
+    //   .file('ibrpg.js', 'var ibrpg=' + JSON.stringify(ibrpg.world));
+
     zip.folder('ibrpg')
-      .file('index.html', '<html><head><title>' + ibrpg.world.name + '</title><script src="ibrpg.js"></script></head><body><h1>' + ibrpg.world.name + '</h1></body></html>')
-      .file('ibrpg.js', 'var ibrpg=' + JSON.stringify(ibrpg.world));
+      .file('index.html', ibrpg.buildPlayerCode(ibrpg))
+      .file('ibrpg.js', 'var ibrpg=' + JSON.stringify(ibrpg.world))
+      .file('core.js', ibrpg.buildPlayerScript(ibrpg));
+      
 
     var promise = null;
 
@@ -598,6 +604,12 @@ let ibrpg = {
 import previewWorld from './modules/preview.js';
 ibrpg.previewWorld = previewWorld;
 
+import {buildCode} from './modules/player/html.js';
+ibrpg.buildPlayerCode = buildCode;
+//console.log(ibrpg_player)
+
+import {buildScript} from './modules/player/core.js';
+ibrpg.buildPlayerScript = buildScript;
 
 window.addEventListener("load", function(e) {
   ibrpg.init();
