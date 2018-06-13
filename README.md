@@ -6,7 +6,9 @@ Features will include:
 * bitsy style tiles
 * visual novel style dialog
 * A-Frame 3D battles!
+* extensible via plugins
 
 Coming in 2018!
+
 
 [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/triptych/ittybittyrpg)
