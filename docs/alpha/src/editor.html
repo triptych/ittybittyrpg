@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width">
     <title>Itty Bitty RPG Editor</title>
     <link href="style/ibrpg_editor.css" rel="stylesheet" type="text/css" />
-    <script src="lib/riot+compiler.min.js"></script>
+    <!--  <script src="lib/riot+compiler.min.js"></script> -->
+    <script src="lib/vue.js"></script>
     <script src="lib/cytoscape.min.js"></script>
+    <script src="lib/jszip.min.js"></script>
+    <script src="scripts/modules/preview.js" type="module"></script>
+    <script src="scripts/modules/player/core.js" type="module"></script>
+    <script src="scripts/modules/player/html.js" type="module"></script>
   </head>
   <body>
     <div id="ittybittyrpg" class="ibrpg">
-      <h1>Itty Bitty RPG</h1>
+      <h1>⚔️ Itty Bitty RPG</h1>
       
       <div class="editor">
         <div class="toolbar">
@@ -19,19 +24,31 @@
             <li><span id="load" class="tb-item">Load</span></li>
             <li><span id="save" class="tb-item">Save</span></li>
             <li><span id="export" class="tb-item">Export</span></li>
+            <li><span id="import" class="tb-item"><input type="file" id="file" name="file" /><label for="file">Import</label></span></li>
+            <li><span id="preview" class="tb-item">Preview</span></li>
             <li><span class="tb-item-separator">---</span></li>
-            <li><span id="new-qnode" class="tb-item">New Node</span></li>
+            <li><span id="new-node" class="tb-item">New Node</span></li>
             <li><span id="properties" class="tb-item">Properties</span></li>
           </ul>
+          <div>
+            Name: [<span id='worldName'></span>]
+            <span id="dlbutton"></span>
+          </div>
         </div>
         <div class="grid" id="grid">
           
+        </div>
+        <div class="properties">
+          <div class="close" id='prop-close'>X</div>
+          <div class="prop-world">
+            foobar
+          </div>
         </div>
       </div>
       
     </div>
     
 
-    <script src="scripts/ibrpg_editor.js"></script>   
+    <script src="scripts/ibrpg_editor.js" type="module"></script>   
   </body>
 </html>
