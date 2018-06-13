@@ -199,13 +199,36 @@ let ibrpg = {
           break;
         default:
           // code
-          console.log('clicked something else?')
+          console.log('clicked something else?');
       }
-    })
+    });
+
+    document.getElementsByClassName('properties')[0].addEventListener('change', function(evt){
+      console.log("node linker changed evt:", evt);
+      console.log("target ", evt.target.options[evt.target.selectedIndex].value)
+      console.log("target source id", evt.target.dataset.room)
+      ibrpg.linkCyNode({
+        source: evt.target.dataset.room, 
+        target: evt.target.options[evt.target.selectedIndex].value
+      })
+    });
 
     // document.getElementById('prop-close').addEventListener('click', function(evt) {
     //   ibrpg.concealPropertiesPanel();
     // });
+  },
+  linkCyNode: function(obj){
+    ibrpg.cy.add([
+      { 
+        group: "edges", 
+        data: { 
+          id: "edge"+ Math.floor(Math.random() * 10000), 
+          source: obj.source, 
+          target: obj.target 
+        } 
+      }
+      ]);
+      
   },
   routeEvent: function(obj) {
     console.log("routeEvent: obj:", obj.evt);
@@ -288,12 +311,13 @@ let ibrpg = {
       case Constants.ROOM:
         var rName = obj.target.id();
         var rTitleText = obj.target.data('titleText');
-        var nodes = ``;
+        var nodes = `<option value='-1'>choose a node</option>`;
         console.log("nodes: id",ibrpg.cy.nodes());
         console.log("filer on node: ", ibrpg.cy.filter("node"));
         ibrpg.cy.nodes().each(function(itm,idx,coll){
           console.log("ele id:", itm.id());
-          nodes += `<option value=${itm.id()}>${itm.id()}</option>`;
+          
+          nodes += `<option value='${itm.id()}'>${itm.id()}</option>`;
         });
         
         thePanel.innerHTML = `
@@ -306,7 +330,7 @@ let ibrpg = {
           <hr/>
           <div>
             <label>Link to another node</label>
-            <select>${nodes}</select>
+            <select class='choose-node-link' data-room='${rName}'>${nodes}</select>
           </div>
           `;
         // ${Array(5).join(0).split(0).map((item, i) => `
