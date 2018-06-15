@@ -197,9 +197,12 @@ let ibrpg = {
           console.log('properties window clicked close x');
           ibrpg.concealPropertiesPanel();
           break;
+        case 'del-edge':
+          console.log('del-edge called');
+          break;
         default:
           // code
-          console.log('clicked something else?');
+          console.log('properties: clicked something else?');
       }
     });
 
@@ -312,12 +315,22 @@ let ibrpg = {
         var rName = obj.target.id();
         var rTitleText = obj.target.data('titleText');
         var nodes = `<option value='-1'>choose a node</option>`;
+        var edges = ``;
         console.log("nodes: id",ibrpg.cy.nodes());
         console.log("filer on node: ", ibrpg.cy.filter("node"));
         ibrpg.cy.nodes().each(function(itm,idx,coll){
           console.log("ele id:", itm.id());
           
           nodes += `<option value='${itm.id()}'>${itm.id()}</option>`;
+        });
+        ibrpg.cy.edges().each(function(itm, idx, coll){
+          console.log("ele id:", itm.id());
+          console.log("edge obj:", itm);
+          edges += `<li> 
+          Edge [${itm.id()}] 
+          from [${itm.data('source')}] 
+          to [${itm.data('target')}] -- 
+          (<span class='del-edge' data-edge='${itm.id()}'>Delete</span>)</li>`;
         });
         
         thePanel.innerHTML = `
@@ -329,8 +342,14 @@ let ibrpg = {
           </div>
           <hr/>
           <div>
-            <label>Link to another node</label>
+            <label>Link to another room node</label>
             <select class='choose-node-link' data-room='${rName}'>${nodes}</select>
+          </div>
+          <div>
+            <label>Existing node links</label>
+            <ul class='existing-node-links'>
+            ${edges}
+            </ul>
           </div>
           `;
         // ${Array(5).join(0).split(0).map((item, i) => `
