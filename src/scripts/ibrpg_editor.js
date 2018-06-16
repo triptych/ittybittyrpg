@@ -199,6 +199,7 @@ let ibrpg = {
           break;
         case 'del-edge':
           console.log('del-edge called');
+          ibrpg.removeEdge(evt.target);
           break;
         default:
           // code
@@ -385,6 +386,13 @@ let ibrpg = {
     });
     //ibrpg.cy.reset();
     //ibrpg.cy.fit();
+    ibrpg.cy.center();
+  },
+  removeEdge: function(obj){
+    console.log("remove edge called on obj:", obj);
+    var edge = obj.dataset.edge;
+    ibrpg.cy.edges('#'+edge).remove();
+    obj.parentNode.parentNode.removeChild(obj.parentNode);
     ibrpg.cy.center();
   },
   genNewWorld: function() {

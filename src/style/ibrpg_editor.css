@@ -131,6 +131,10 @@ body {
     cursor: pointer;
 }
 
+.properties .del-edge {
+    cursor: pointer;
+}
+
 div.prop-reveal {
     z-index: 10;
     opacity: 1;
