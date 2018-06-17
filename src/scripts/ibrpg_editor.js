@@ -201,6 +201,14 @@ let ibrpg = {
           console.log('del-edge called');
           ibrpg.removeEdge(evt.target);
           break;
+        case 'add-dialog':
+          console.log('add-dialog called');
+          //dialog.showProperties();  
+          break;
+        case 'edit-dialog':
+          console.log('edit-dialog called ');
+          dialog.showProperties();
+          break;
         default:
           // code
           console.log('properties: clicked something else?');
@@ -209,12 +217,13 @@ let ibrpg = {
 
     document.getElementsByClassName('properties')[0].addEventListener('change', function(evt){
       console.log("node linker changed evt:", evt);
-      console.log("target ", evt.target.options[evt.target.selectedIndex].value)
-      console.log("target source id", evt.target.dataset.room)
-      ibrpg.linkCyNode({
-        source: evt.target.dataset.room, 
-        target: evt.target.options[evt.target.selectedIndex].value
-      })
+      // console.log("target ", evt.target.options[evt.target.selectedIndex].value)
+      // console.log("target source id", evt.target.dataset.room)
+      // ibrpg.linkCyNode({
+      //   source: evt.target.dataset.room, 
+      //   target: evt.target.options[evt.target.selectedIndex].value
+      // })
+
     });
 
     // document.getElementById('prop-close').addEventListener('click', function(evt) {
@@ -351,6 +360,15 @@ let ibrpg = {
             <ul class='existing-node-links'>
             ${edges}
             </ul>
+          </div>
+          <div>
+            <label>Room gameplay component</label>
+            <div>
+
+              <input id="mod-dialog" type="radio" name="game-component" 
+                value="dialog" data-room='${rName}'>
+                <label for="mod-dialog">Text Dialog</label> [<span class="edit-dialog">Edit Dialog</span>]
+            </div>
           </div>
           `;
         // ${Array(5).join(0).split(0).map((item, i) => `
@@ -633,6 +651,12 @@ ibrpg.buildPlayerCode = buildCode;
 
 import { buildScript } from './modules/player/core.js';
 ibrpg.buildPlayerScript = buildScript;
+
+// import dialog overlay
+import dialog from './modules/dialog/inspector.js';
+dialog.init();
+
+
 
 window.addEventListener("load", function(e) {
   ibrpg.init();
