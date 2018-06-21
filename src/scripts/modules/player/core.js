@@ -22,7 +22,8 @@ export function buildScript(obj){
             console.log("init called");
             console.log("ibrpg data:", ibrpg);
             player.initCanvas();
-            player.drawText(ibrpg.cy.elements.nodes[0].data.titleText);
+            //player.drawText(ibrpg.cy.elements.nodes[0].data.titleText);
+            player.drawText(ibrpg.cy.elements.nodes[0].data.dialog.text)
         },
         drawText: function(text){
             console.log("drawText:" , text);
