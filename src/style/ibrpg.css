@@ -216,7 +216,7 @@ nav button.button:active {
 }
 
 .hovering {
-    animation-name: 'wiggle';
+    animation-name: wiggle;
     animation-duration: 2s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
@@ -224,7 +224,7 @@ nav button.button:active {
 }
 
 .throbbing {
-    animation-name: 'throb';
+    animation-name: throb;
     animation-duration: 3s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
