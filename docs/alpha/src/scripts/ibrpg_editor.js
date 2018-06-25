@@ -207,7 +207,10 @@ let ibrpg = {
           break;
         case 'edit-dialog':
           console.log('edit-dialog called ');
-          dialog.showProperties();
+          dialog.showProperties({
+            target: evt.target,
+            ibrpg:ibrpg
+          });
           break;
         default:
           // code
@@ -217,12 +220,12 @@ let ibrpg = {
 
     document.getElementsByClassName('properties')[0].addEventListener('change', function(evt){
       console.log("node linker changed evt:", evt);
-      // console.log("target ", evt.target.options[evt.target.selectedIndex].value)
-      // console.log("target source id", evt.target.dataset.room)
-      // ibrpg.linkCyNode({
-      //   source: evt.target.dataset.room, 
-      //   target: evt.target.options[evt.target.selectedIndex].value
-      // })
+      console.log("target ", evt.target.options[evt.target.selectedIndex].value)
+      console.log("target source id", evt.target.dataset.room)
+      ibrpg.linkCyNode({
+        source: evt.target.dataset.room, 
+        target: evt.target.options[evt.target.selectedIndex].value
+      })
 
     });
 
@@ -367,7 +370,8 @@ let ibrpg = {
 
               <input id="mod-dialog" type="radio" name="game-component" 
                 value="dialog" data-room='${rName}'>
-                <label for="mod-dialog">Text Dialog</label> [<span class="edit-dialog">Edit Dialog</span>]
+                <label for="mod-dialog">Text Dialog</label> 
+                [<span class="edit-dialog" data-room='${rName}'>Edit Dialog</span>]
             </div>
           </div>
           `;
@@ -394,7 +398,7 @@ let ibrpg = {
   },
   addNode: function() {
     console.log('addNode called');
-    var randomName = 'room ' + Math.floor(Math.random() * 1000);
+    var randomName = 'room-' + Math.floor(Math.random() * 1000);
     ibrpg.cy.add({
       group: 'nodes',
       data: {
@@ -503,7 +507,7 @@ let ibrpg = {
         //         document.getElementById("contenttext").appendChild(document.createTextNode(str));
         //     });
         // }
-        if (zipEntry.name.includes(".js")) {
+        if (zipEntry.name.includes("ibrpg.js")) {
           zip.file(zipEntry.name).async("string").then(function(str) {
             console.log("str:", str);
             var jsonString = str.split('var ibrpg=')[1];
