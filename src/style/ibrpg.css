@@ -238,3 +238,7 @@ nav .nav {
 nav .nav .button {
     flex-grow: 2;
 }
+
+.hidden {
+    display: none;
+}

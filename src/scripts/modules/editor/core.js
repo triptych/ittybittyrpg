@@ -7,7 +7,8 @@
 // };
 
 var init = function () {
-    console.log("core editor: init called;")
+    console.log("core editor: init called");
+
     bindEvents();
 }
 
