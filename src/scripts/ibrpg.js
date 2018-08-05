@@ -14,4 +14,5 @@ import editor from './modules/editor/core.js';
 
 window.addEventListener("load", function (e) {
     editor.init();
+    console.log("editor", editor);
 });
