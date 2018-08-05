@@ -7,6 +7,7 @@ Features will include:
 * visual novel style dialog
 * A-Frame 3D battles!
 * extensible via plugins
+* blockly for coding
 
 Coming in 2018!
 
