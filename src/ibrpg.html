@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" href="style/ibrpg.css">
-        <script src="scripts/modules/editor/core.js" type="module"></script>
-    </head>
-    <body>
-        
-        <div class='panels'>
-            <div class='intro panel visible'>
-                <div class='title'>
-                    <h1>Itty Bitty RPG</h1>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="style/ibrpg.css">
+    <script src="scripts/modules/editor/core.js" type="module"></script>
+</head>
+
+<body>
+
+    <div class='panels'>
+        <div class='intro panel visible'>
+            <div class='title'>
+                <h1>Itty Bitty RPG</h1>
+            </div>
+            <nav>
+                <div class='nav'>
+                    <button class="button green" data-action='new'>New</button>
                 </div>
-                <nav>
-                    <div class='nav'><button class="button green" >New</button></div>
-                    <div class='nav'><button class="button purple">Load</button></div>
-                    <div class='nav'><button class="button blue">Save</button></div>
-                    <div class='nav'><button class="button red">Import</button></div>
-                    <div class='nav'><button class="button yellow">Export</button></div>
-                </nav>
-            </div>
-            <div class='properties panel '>
-                [[Display world properties]]
-            </div>
-            <div class='world panel '>
-                [[ This is the world panel for preview. ]]
-            </div>
-            <div class='editor panel '>
-                [[ This is the editor panel for building stuff.]]
-            </div>
-            <div class='inspector panel '>
-                [[ This panel is to inspect a node]]
-            </div>
+                <div class='nav'>
+                    <button class="button purple" data-action='load'>Load</button>
+                </div>
+                <div class='nav'>
+                    <button class="button blue" data-action='save'>Save</button>
+                </div>
+                <div class='nav'>
+                    <button class="button red" data-action='import'>Import</button>
+                </div>
+                <div class='nav'>
+                    <button class="button yellow" data-action='export'>Export</button>
+                </div>
+            </nav>
+        </div>
+        <div class='properties panel' data-role='properties'>
+            [[Display world properties]]
+        </div>
+        <div class='world panel' data-role='world'>
+            [[ This is the world panel for preview. ]]
+        </div>
+        <div class='editor panel' data-role='editor'>
+            [[ This is the editor panel for building stuff.]]
+        </div>
+        <div class='inspector panel' data-role='inspector'>
+            [[ This panel is to inspect a node]]
+        </div>
         </panels>
-        
+
 
 
         <script src="scripts/ibrpg.js" type="module"></script>
-    </body>
+</body>
+
 </html>
