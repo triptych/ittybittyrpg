@@ -1,10 +1,9 @@
 /** Core Editor Functions  */
 const ver = "0.02";
 
-var editor = {};
 var storage = {};
 
-var init = () =>  {
+var init = () => {
     console.log("core editor: init called");
 
     bindEvents();
@@ -13,6 +12,26 @@ var init = () =>  {
 
 var bindEvents = () => {
     console.log("bindEvents")
+
+    document.querySelectorAll(".editor .toolbar > ul > li > span").forEach((itm, idx, coll) => {
+        itm.addEventListener('click', (evt) => {
+            console.log("evt ", evt);
+            var targetEl = evt.target.parentNode.querySelector('ul');
+            document.querySelector('.toolbar').querySelectorAll('ul li ul').forEach((itm, idx, coll) => {
+                console.log("toolbar hide")
+                itm.classList.remove('active');
+            })
+
+            console.log("targetEl", targetEl.classList.contains('active'))
+            if (targetEl.classList.contains('active')) {
+                targetEl.classList.remove('active');
+            } else {
+                targetEl.classList.add('active');
+            }
+
+        })
+    })
+
     document.querySelectorAll("nav .nav").forEach((itm, idx, coll) => {
         itm.addEventListener("mouseover", function (evt) {
             evt.target.classList.add("throbbing");

@@ -1,4 +1,12 @@
 /* styles for IttyBitty RPG */
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+  }
+
 
 @font-face {
     font-family: 'Tauri';
@@ -256,3 +264,48 @@ nav .nav .button {
 .hidden {
     display: none;
 }
+
+
+/** toolbar **/
+.toolbar {
+    background-color: #eee;
+    color: #000;
+    border-radius: 10px;
+    width: 100%;
+}
+.toolbar > ul {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.toolbar ul {
+    margin: 0px;
+}
+
+.toolbar ul li {
+    list-style-type: none;
+    cursor: pointer;
+    padding-right: 5vw;
+    position: relative;
+}
+
+.toolbar > ul > li > ul {
+    position: absolute;
+    display: none;
+    align-items: flex-start;
+    flex-direction: column;
+    background-color: lightgrey;
+    padding: 20px 10px;
+    border-radius: 5px;
+}
+
+.toolbar > ul > li > ul.active {
+    display: flex;
+}
+
+
+.toolbar > ul > li > ul > li {
+    padding: 10px;
+}
+
