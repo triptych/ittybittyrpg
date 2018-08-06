@@ -104,7 +104,7 @@ body {
     display:none;
 }
 
-.properties {
+.properties, .popup {
     position: absolute;
     top: 10%;
     left: 10%;
@@ -118,7 +118,12 @@ body {
     transition: opacity .5s ease-in 0.1s; 
 }
 
-.properties .close {
+.popup {
+    background-color: bisque;
+}
+
+.properties .close,
+.popup .close {
     color: #000;
     position: absolute;
     top: 5px;
@@ -131,7 +136,17 @@ body {
     cursor: pointer;
 }
 
+.properties .del-edge,
+.properties .edit-dialog {
+    cursor: pointer;
+}
+
 div.prop-reveal {
     z-index: 10;
+    opacity: 1;
+}
+
+div.popup-reveal {
+    z-index: 20;
     opacity: 1;
 }

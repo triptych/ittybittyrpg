@@ -197,9 +197,24 @@ let ibrpg = {
           console.log('properties window clicked close x');
           ibrpg.concealPropertiesPanel();
           break;
+        case 'del-edge':
+          console.log('del-edge called');
+          ibrpg.removeEdge(evt.target);
+          break;
+        case 'add-dialog':
+          console.log('add-dialog called');
+          //dialog.showProperties();  
+          break;
+        case 'edit-dialog':
+          console.log('edit-dialog called ');
+          dialog.showProperties({
+            target: evt.target,
+            ibrpg:ibrpg
+          });
+          break;
         default:
           // code
-          console.log('clicked something else?');
+          console.log('properties: clicked something else?');
       }
     });
 
@@ -211,6 +226,7 @@ let ibrpg = {
         source: evt.target.dataset.room, 
         target: evt.target.options[evt.target.selectedIndex].value
       })
+
     });
 
     // document.getElementById('prop-close').addEventListener('click', function(evt) {
@@ -312,12 +328,22 @@ let ibrpg = {
         var rName = obj.target.id();
         var rTitleText = obj.target.data('titleText');
         var nodes = `<option value='-1'>choose a node</option>`;
+        var edges = ``;
         console.log("nodes: id",ibrpg.cy.nodes());
         console.log("filer on node: ", ibrpg.cy.filter("node"));
         ibrpg.cy.nodes().each(function(itm,idx,coll){
           console.log("ele id:", itm.id());
           
           nodes += `<option value='${itm.id()}'>${itm.id()}</option>`;
+        });
+        ibrpg.cy.edges().each(function(itm, idx, coll){
+          console.log("ele id:", itm.id());
+          console.log("edge obj:", itm);
+          edges += `<li> 
+          Edge [${itm.id()}] 
+          from [${itm.data('source')}] 
+          to [${itm.data('target')}] -- 
+          (<span class='del-edge' data-edge='${itm.id()}'>Delete</span>)</li>`;
         });
         
         thePanel.innerHTML = `
@@ -329,8 +355,24 @@ let ibrpg = {
           </div>
           <hr/>
           <div>
-            <label>Link to another node</label>
+            <label>Link to another room node</label>
             <select class='choose-node-link' data-room='${rName}'>${nodes}</select>
+          </div>
+          <div>
+            <label>Existing node links</label>
+            <ul class='existing-node-links'>
+            ${edges}
+            </ul>
+          </div>
+          <div>
+            <label>Room gameplay component</label>
+            <div>
+
+              <input id="mod-dialog" type="radio" name="game-component" 
+                value="dialog" data-room='${rName}'>
+                <label for="mod-dialog">Text Dialog</label> 
+                [<span class="edit-dialog" data-room='${rName}'>Edit Dialog</span>]
+            </div>
           </div>
           `;
         // ${Array(5).join(0).split(0).map((item, i) => `
@@ -356,7 +398,7 @@ let ibrpg = {
   },
   addNode: function() {
     console.log('addNode called');
-    var randomName = 'room ' + Math.floor(Math.random() * 1000);
+    var randomName = 'room-' + Math.floor(Math.random() * 1000);
     ibrpg.cy.add({
       group: 'nodes',
       data: {
@@ -366,6 +408,13 @@ let ibrpg = {
     });
     //ibrpg.cy.reset();
     //ibrpg.cy.fit();
+    ibrpg.cy.center();
+  },
+  removeEdge: function(obj){
+    console.log("remove edge called on obj:", obj);
+    var edge = obj.dataset.edge;
+    ibrpg.cy.edges('#'+edge).remove();
+    obj.parentNode.parentNode.removeChild(obj.parentNode);
     ibrpg.cy.center();
   },
   genNewWorld: function() {
@@ -458,7 +507,7 @@ let ibrpg = {
         //         document.getElementById("contenttext").appendChild(document.createTextNode(str));
         //     });
         // }
-        if (zipEntry.name.includes(".js")) {
+        if (zipEntry.name.includes("ibrpg.js")) {
           zip.file(zipEntry.name).async("string").then(function(str) {
             console.log("str:", str);
             var jsonString = str.split('var ibrpg=')[1];
@@ -606,6 +655,12 @@ ibrpg.buildPlayerCode = buildCode;
 
 import { buildScript } from './modules/player/core.js';
 ibrpg.buildPlayerScript = buildScript;
+
+// import dialog overlay
+import dialog from './modules/dialog/inspector.js';
+dialog.init();
+
+
 
 window.addEventListener("load", function(e) {
   ibrpg.init();
