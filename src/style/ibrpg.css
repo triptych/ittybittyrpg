@@ -271,7 +271,8 @@ nav .nav .button {
     background-color: #eee;
     color: #000;
     border-radius: 10px;
-    width: 100%;
+    width: 100vw;
+    z-index: 100;
 }
 .toolbar > ul {
     display: flex;
@@ -309,3 +310,15 @@ nav .nav .button {
     padding: 10px;
 }
 
+
+/* cytoscape */
+
+.ibrpg .grid {
+    height: 75vh;
+    width: 100vw;
+    background-color: white;
+    background-image: repeating-linear-gradient(0deg,transparent,transparent 64px,#CCC 64px,#CCC 65px),repeating-linear-gradient(-90deg,transparent,transparent 64px,#CCC 64px,#CCC 65px);
+    background-size: 65px 65px;
+    margin: 4px;
+    border-radius: 10px;
+}

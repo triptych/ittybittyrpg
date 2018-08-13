@@ -13,6 +13,18 @@ var init = () => {
 var bindEvents = () => {
     console.log("bindEvents")
 
+    document.querySelector(".ibrpg").addEventListener('click', (evt) => {
+        console.log("something clicked");
+
+        console.log("evt target", evt.target)
+        if(evt.target.dataset["type"] != "file" && evt.target.dataset["type"] != "view"){
+        document.querySelector('.toolbar').querySelectorAll('ul li ul').forEach((itm, idx, coll) => {
+            console.log("toolbar hide")
+            itm.classList.remove('active');
+        })
+        }
+    });
+
     document.querySelectorAll(".editor .toolbar > ul > li > span").forEach((itm, idx, coll) => {
         itm.addEventListener('click', (evt) => {
             console.log("evt ", evt);
@@ -24,8 +36,10 @@ var bindEvents = () => {
 
             console.log("targetEl", targetEl.classList.contains('active'))
             if (targetEl.classList.contains('active')) {
+                console.log(" toolbar hide toggle")
                 targetEl.classList.remove('active');
             } else {
+                console.log("toolbar show toggles");
                 targetEl.classList.add('active');
             }
 

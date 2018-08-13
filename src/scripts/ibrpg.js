@@ -10,9 +10,11 @@ const Constants = {
 }
 
 import editor from './modules/editor/core.js';
+import cytoscape from './modules/cytoscape/core.js';
 
 
 window.addEventListener("load", function (e) {
     editor.init();
+    cytoscape.init();
     //console.log("editor", editor);
 });

@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="style/ibrpg.css">
+    <script src="lib/cytoscape.min.js"></script>
     <script src="scripts/modules/editor/core.js" type="module"></script>
 </head>
 
-<body>
+<body class="ibrpg">
 
     <div class='panels'>
         <div class='intro panel visible'>
@@ -64,12 +65,15 @@
                         </ul>
                     </li>
                     <li>
-                        <span>View</span>
+                        <span data-type="view">View</span>
                         <ul>
                             <li>Preview</li>
                         </ul>
                     </li>
                 </ul>
+            </div>
+            <div class="grid" id="grid">
+
             </div>
         </div>
         <div class='inspector panel' data-role='inspector'>
