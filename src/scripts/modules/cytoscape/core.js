@@ -60,6 +60,24 @@ let cy = {};
 let init = () => {
   console.log("cytoscape init called;");
   initCytoScapeModel();
+  initCytoScapeListeners();
+}
+let initCytoScapeListeners = () => {
+  console.log('initCytoscapeListeners');
+  window.addEventListener('cy-add-node', addNode, false);
+};
+
+let addNode = () => {
+  console.log('addNode called');
+  var randomName = 'room-' + Math.floor(Math.random() * 1000);
+  cy.add({
+    group: 'nodes',
+    data: {
+      room: randomName,
+      id: randomName
+    }
+  });
+  cy.center();
 }
 
 let initCytoScapeModel = () => {

@@ -13,6 +13,12 @@ var init = () => {
 var bindEvents = () => {
     console.log("bindEvents")
 
+    document.querySelector("#add_node").addEventListener('click', (evt) => {
+        console.log('add_node clicked!')
+        var evtAddNode = new Event('cy-add-node');
+        window.dispatchEvent(evtAddNode);
+    });
+
     document.querySelector(".ibrpg").addEventListener('click', (evt) => {
         console.log("something clicked");
 
@@ -84,6 +90,9 @@ var bindEvents = () => {
 
 var handleNewGame = () => {
     console.log("handleNewGame called");
+    //window.postMessage("file-new")
+    var newGameEvent = new Event('file-new');
+    window.dispatchEvent(newGameEvent);
     revealPanel('editor');
 
 }
