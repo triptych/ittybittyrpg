@@ -65,7 +65,13 @@ let init = () => {
 let initCytoScapeListeners = () => {
   console.log('initCytoscapeListeners');
   window.addEventListener('cy-add-node', addNode, false);
+  window.addEventListener('cy-elements-remove', removeElements, false);
 };
+
+let removeElements = () => {
+  console.log("cytoscape - remove elements called");
+  cy.elements().remove();
+}
 
 let addNode = () => {
   console.log('addNode called');

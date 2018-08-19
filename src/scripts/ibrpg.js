@@ -6,7 +6,8 @@
 /* world constants */
 const Constants = {
     WORLD: 'world',
-    ROOM: 'room'
+    ROOM: 'room',
+    VERSION: '0.02'
 }
 
 import editor from './modules/editor/core.js';

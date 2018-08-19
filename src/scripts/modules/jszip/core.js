@@ -27,11 +27,29 @@ let importgame = () => {
 
 let newgame = (e) => {
     console.log("newgame called with e:", e);
+    // prompt for game name
+    var game_name = window.prompt("Name of your new world?", 'world'+Math.floor(Math.random()*10000));
+    var world = {
+        name: game_name,
+        ver: "0.02",
+        cy: {}
+    }
+    //  ibrpg.cy.elements().remove();
+    var evtRemove = new Event('cy-elements-remove');
+    var evtSetGame = new CustomEvent('set-game', {
+        detail:world
+    });
+    var evtUpdateUI = new Event('update-ui');
+    window.dispatchEvent(evtRemove);
+    window.dispatchEvent(evtSetGame);
+    window.dispatchEvent(evtUpdateUI);
+
 }
 
 let initListeners = () => {
     console.log("initListeners called");
     window.addEventListener('file-new', newgame, false);
+
 }
 
 export default {
