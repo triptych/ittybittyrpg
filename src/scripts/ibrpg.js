@@ -11,13 +11,24 @@ const Constants = {
 }
 
 import editor from './modules/editor/core.js';
-import cytoscape from './modules/cytoscape/core.js';
+import cyto from './modules/cytoscape/core.js';
 import filesystem from './modules/jszip/core.js';
 
 
 window.addEventListener("load", function (e) {
     editor.init();
-    cytoscape.init();
+    cyto.init();
     filesystem.init();
     //console.log("editor", editor);
 });
+
+window.addEventListener('saveit', function (e) {
+    console.log("saveit")
+    editor.storage.game = {
+        name : document.getElementById('game_name').innerHTML,
+        ver : Constants.VERSION ,
+        cy: cyto.getCyJSON()
+    }
+    window.localStorage.setItem('ibrpg', JSON.stringify(editor.storage));
+      alert("world: [" + editor.storage.game.name + "] saved");
+})

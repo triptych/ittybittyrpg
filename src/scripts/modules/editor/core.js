@@ -24,7 +24,37 @@ var bindEvents = () => {
     document.querySelector(".ibrpg").addEventListener('click', (evt) => {
         console.log("something clicked");
 
+
+
+
         console.log("evt target", evt.target)
+        switch (evt.target.dataset['type']) {
+            case 'file-new':
+                console.log("menu: file-new clicked");
+                handleNewGame();
+                break;
+            case 'file-load':
+                console.log("menu: file-load clicked");
+                break;
+            case 'file-save':
+                console.log("menu: file-save clicked");
+                handleSaveGame();
+                break;
+            case 'file-import':
+                console.log("menu: file-import clicked");
+                break;
+            case 'file-export':
+                console.log("menu: file-export clicked");
+                break;
+            case 'view-preview':
+                console.log("menu: view-preview clicked");
+                break;
+            default:
+                console.log("something I don't know got clicked")
+                break;
+        }
+
+
         if (evt.target.dataset["type"] != "file" && evt.target.dataset["type"] != "view") {
             // document.querySelector('.toolbar').querySelectorAll('ul li ul').forEach((itm, idx, coll) => {
             //     console.log("toolbar hide")
@@ -37,7 +67,7 @@ var bindEvents = () => {
     // toolbar item clicked
     document.querySelectorAll(".editor .toolbar > ul > li > span").forEach((itm, idx, coll) => {
         itm.addEventListener('click', (evt) => {
-            console.log("evt ", evt);
+            console.log("toolbar element evt ", evt);
             var targetEl = evt.target.parentNode.querySelector('ul');
 
             hideMenuItems();
@@ -104,6 +134,17 @@ var handleNewGame = () => {
 
     revealPanel('editor');
 
+}
+
+var handleSaveGame = () => {
+    console.log("handleSaveGame called");
+
+    var saveGameEvent = new Event('saveit');
+    window.dispatchEvent(saveGameEvent);
+    //console.log(this);
+    //console.log(storage);
+
+    
 }
 
 var setGame = (evt) => {

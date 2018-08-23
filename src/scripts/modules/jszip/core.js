@@ -10,7 +10,9 @@ let init = () => {
 }
 
 let save = () => {
-    console.log("save called")
+    console.log("gzip save called");
+
+    
 }
 
 let load = () => {
@@ -49,7 +51,7 @@ let newgame = (e) => {
 let initListeners = () => {
     console.log("initListeners called");
     window.addEventListener('file-new', newgame, false);
-
+    window.addEventListener('file-save', save, false);
 }
 
 export default {
