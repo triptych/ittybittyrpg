@@ -11,7 +11,7 @@ let init = () => {
 
 let save = () => {
     console.log("gzip save called");
-
+    // save implemented in parent because of shared memory
     
 }
 

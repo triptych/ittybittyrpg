@@ -29,6 +29,22 @@ window.addEventListener('saveit', function (e) {
         ver : Constants.VERSION ,
         cy: cyto.getCyJSON()
     }
-    window.localStorage.setItem('ibrpg', JSON.stringify(editor.storage));
+    window.localStorage.setItem('ibrpg', JSON.stringify(editor.storage.game));
       alert("world: [" + editor.storage.game.name + "] saved");
+})
+
+window.addEventListener('loadit', function (e) {
+    console.log('loadit called in parent js');
+    if(!confirm("Are you sure you want to load? Your current progress will be lost.")){
+        return;
+    } else {
+        // load to memory
+        editor.storage.game = JSON.parse(window.localStorage.getItem('ibrpg'));
+        // update cytoscape
+        //ibrpg.cy.json(ibrpg.world.cy);
+        cyto.loadCyJSON(editor.storage.game.cy);
+        // update UI
+        var evtUpdateUI = new Event('update-ui');
+        window.dispatchEvent(evtUpdateUI);
+    }
 })

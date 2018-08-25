@@ -90,6 +90,10 @@ let getCyJSON = () => {
   return cy.json();
 }
 
+let loadCyJSON = (obj) => {
+  cy.json(obj);
+}
+
 let initCytoScapeModel = () => {
   cy = cytoscape({
     container: document.getElementById('grid'),
@@ -145,5 +149,6 @@ let bindCyNodes = () => {
 export default {
   init,
   cy,
-  getCyJSON
+  getCyJSON,
+  loadCyJSON
 };

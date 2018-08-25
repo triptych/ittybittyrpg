@@ -35,6 +35,7 @@ var bindEvents = () => {
                 break;
             case 'file-load':
                 console.log("menu: file-load clicked");
+                handleLoadGame();
                 break;
             case 'file-save':
                 console.log("menu: file-save clicked");
@@ -147,6 +148,12 @@ var handleSaveGame = () => {
     
 }
 
+var handleLoadGame = () => {
+    console.log("handleLoadGame called");
+    var loadGameEvent = new Event('loadit');
+    window.dispatchEvent(loadGameEvent);
+}
+
 var setGame = (evt) => {
     //set-game
     console.log("editor core setGame called with data:", evt.detail);
@@ -180,7 +187,7 @@ var hideMenuItems = () => {
 }
 
 var updateUI = () => {
-    console.log("updateUI called");
+    console.log("updateUI called storage:", storage);
     var gameName = storage.game.name;
     console.log("game name : ", gameName);
     document.querySelector('#game_name').innerHTML = gameName;
