@@ -31,7 +31,7 @@ window.addEventListener('saveit', function (e) {
     }
     window.localStorage.setItem('ibrpg', JSON.stringify(editor.storage.game));
       alert("world: [" + editor.storage.game.name + "] saved");
-})
+});
 
 window.addEventListener('loadit', function (e) {
     console.log('loadit called in parent js');
@@ -47,4 +47,24 @@ window.addEventListener('loadit', function (e) {
         var evtUpdateUI = new Event('update-ui');
         window.dispatchEvent(evtUpdateUI);
     }
+});
+
+window.addEventListener('exportit', function (e) {
+    console.log("exportit called in parent js");
+    filesystem.exportgame(editor.storage.game);
+});
+
+window.addEventListener('importit', function (e){
+    console.log("importit called in parent js e",e);
+    filesystem.importgame(e.detail);
+    //editor.storage.game = JSON.parse(jsonString);
+});
+
+window.addEventListener('set-game-from-json', function(e){
+    console.log('set-game-from-json called');
+    editor.storage.game = JSON.parse(e.detail);
+    cyto.loadCyJSON(editor.storage.game.cy);
+        // update UI
+        var evtUpdateUI = new Event('update-ui');
+        window.dispatchEvent(evtUpdateUI);
 })

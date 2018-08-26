@@ -332,3 +332,7 @@ nav .nav .button {
 .info .label {
     padding-left: 6px;
 }
+
+#file {
+    display:none;
+}

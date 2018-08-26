@@ -43,9 +43,11 @@ var bindEvents = () => {
                 break;
             case 'file-import':
                 console.log("menu: file-import clicked");
+                
                 break;
             case 'file-export':
                 console.log("menu: file-export clicked");
+                handleExportGame();
                 break;
             case 'view-preview':
                 console.log("menu: view-preview clicked");
@@ -121,8 +123,23 @@ var bindEvents = () => {
         })
     });
 
+    // listen for the import file event
+    document.getElementById("file").addEventListener("change", function(evt) {
+  
+        var files = evt.target.files;
+        for (var i = 0; i < files.length; i++) {
+          console.log("file:", files[i]);
+          //ibrpg.importWorld(files[i]);
+          var importEvt = new CustomEvent('importit', {
+              detail: files[i]
+          });
+          window.dispatchEvent(importEvt);
+  
+        }
+      });
+  
     window.addEventListener('update-ui', updateUI, false);
-    window.addEventListener('set-game', setGame,true);
+    window.addEventListener('set-game', setGame, true);
 }
 
 // pass new game request to jzip core via events
@@ -152,6 +169,12 @@ var handleLoadGame = () => {
     console.log("handleLoadGame called");
     var loadGameEvent = new Event('loadit');
     window.dispatchEvent(loadGameEvent);
+}
+
+var handleExportGame = () => {
+    console.log("handleExportGame called");
+    var exportGameEvent = new Event('exportit');
+    window.dispatchEvent(exportGameEvent);
 }
 
 var setGame = (evt) => {
