@@ -525,6 +525,9 @@ let ibrpg = {
 
 
     });
+
+
+    
   },
   editPropertiesField: function(obj) {
     console.log('editPropertiesField -- ', obj);

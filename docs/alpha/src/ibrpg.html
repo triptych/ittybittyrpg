@@ -5,10 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="style/ibrpg.css">
+    <script src="lib/cytoscape.min.js"></script>
+    <script src="lib/jszip.min.js"></script>
     <script src="scripts/modules/editor/core.js" type="module"></script>
 </head>
 
-<body>
+<body class="ibrpg">
 
     <div class='panels'>
         <div class='intro panel visible'>
@@ -47,29 +49,40 @@
                         <span data-type='file'>File</span>
                         <ul>
                             <li>
-                                <span>New</span>
+                                <span data-type='file-new'>New</span>
                             </li>
                             <li>
-                                <span>Load</span>
+                                <span data-type='file-load'>Load</span>
                             </li>
                             <li>
-                                <span>Save</span>
+                                <span data-type='file-save'>Save</span>
                             </li>
                             <li>
-                                <span>Export</span>
+                                <span data-type='file-export'>Export</span>
                             </li>
                             <li>
-                                <span>Import</span>
+                                <span data-type='file-import'><input type="file" id="file" name="file" /><label for="file">Import</label></span>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <span>View</span>
+                        <span data-type="view">View</span>
                         <ul>
-                            <li>Preview</li>
+                            <li>
+                                <span data-type='view-preview'>Preview</span>
+                            </li>
                         </ul>
                     </li>
                 </ul>
+            </div>
+            <div class="info">
+                <span class="label">Name:</span><span id="game_name"></span>
+                <span id="dlbutton"></span>
+                -- 
+                <span><button id="add_node">[+]</button></span>
+            </div>
+            <div class="grid" id="grid">
+
             </div>
         </div>
         <div class='inspector panel' data-role='inspector'>
