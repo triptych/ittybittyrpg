@@ -336,3 +336,20 @@ nav .nav .button {
 #file {
     display:none;
 }
+
+.ibrpg .panel .prop-node {
+    background-color: lightblue;
+    width: 98vw;
+    margin: 4px;
+    padding: 4px;
+    color: black;
+    border-radius:  10px;
+    position: relative;
+}
+
+.prop-node .prop-close {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    cursor: pointer;
+}

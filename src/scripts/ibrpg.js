@@ -14,7 +14,7 @@ import editor from './modules/editor/core.js';
 import cyto from './modules/cytoscape/core.js';
 import filesystem from './modules/jszip/core.js';
 
-
+// init stuff when page is loaded -- components
 window.addEventListener("load", function (e) {
     editor.init();
     cyto.init();
@@ -22,6 +22,7 @@ window.addEventListener("load", function (e) {
     //console.log("editor", editor);
 });
 
+// listen for save custom event
 window.addEventListener('saveit', function (e) {
     console.log("saveit")
     editor.storage.game = {

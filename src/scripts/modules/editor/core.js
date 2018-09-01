@@ -138,8 +138,21 @@ var bindEvents = () => {
         }
       });
   
+    // listen for the close window event on property windows
+    document.querySelector('.prop-close').addEventListener('click', (evt) => {
+        // you never "close" a dialog, you just go to another one. They all get closed.
+        var revealEditorEvent = new CustomEvent('reveal-panel',{
+            detail: {
+                type: 'editor',
+                data: {}
+            }
+        });
+        window.dispatchEvent(revealEditorEvent);
+    })
+    
     window.addEventListener('update-ui', updateUI, false);
     window.addEventListener('set-game', setGame, true);
+    window.addEventListener('reveal-panel', revealPanel, true);
 }
 
 // pass new game request to jzip core via events
@@ -150,7 +163,14 @@ var handleNewGame = () => {
     var newGameEvent = new Event('file-new');
     window.dispatchEvent(newGameEvent);
 
-    revealPanel('editor');
+    //revealPanel('editor');
+    var revealEditorEvent = new CustomEvent('reveal-panel',{
+        detail: {
+            type: 'editor',
+            data: {}
+        }
+    });
+    window.dispatchEvent(revealEditorEvent);
 
 }
 
@@ -184,17 +204,32 @@ var setGame = (evt) => {
 }
 
 // generic panel reveal code
-var revealPanel = (panelname) => {
+var revealPanel = (panelobj) => {
+    console.log('revealPanel called with panelobj:', panelobj);
     document.querySelectorAll(".panels .panel").forEach((itm, idx, coll) => {
         itm.classList.remove('visible')
         setTimeout(function () {
             itm.classList.add('hidden');
         }, 1000);
     });
+
+    switch (panelobj.detail.type) {
+        case 'editor':
+            console.log('editor setup?')
+            break;
+        case 'properties':
+            console.log('properties setup?');
+            document.getElementById('prop-node-name').innerHTML = panelobj.detail.data.target.id();
+            break;
+        default:
+            break;
+    }    
     setTimeout(function () {
         // document.querySelectorAll(".panels .panel"+ "." + panelname)[1].classList.remove('hidden');
         // document.querySelectorAll(".panels .panel"+"." + panelname)[1].classList.add('visible');
-        var panel = document.querySelector('[data-role=' + panelname + ']')
+        console.log('in revealpanel panelobj.type:', panelobj.type);
+        var panel = document.querySelector('[data-role=' + panelobj.detail.type + ']');
+        console.log('in revealpanel panel:',panel);
         panel.classList.remove('hidden');
         panel.classList.add('visible');
     }, 1001);
