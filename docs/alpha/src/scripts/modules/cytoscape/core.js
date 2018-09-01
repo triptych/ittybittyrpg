@@ -143,6 +143,16 @@ let bindCyNodes = () => {
     //   context: Constants.ROOM,
     //   target: node
     // });
+    var openProperties = new CustomEvent('reveal-panel', {
+      detail: {
+        type: 'properties',
+        data: {
+          context: 'room',
+          target: node
+        }
+      }
+    });
+    window.dispatchEvent(openProperties);
   })
 }
 
