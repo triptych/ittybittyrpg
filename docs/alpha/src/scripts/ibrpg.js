@@ -50,6 +50,17 @@ window.addEventListener('loadit', function (e) {
     }
 });
 
+window.addEventListener('continueit', (e) => {
+    // load to memory
+    editor.storage.game = JSON.parse(window.localStorage.getItem('ibrpg'));
+    // update cytoscape
+    //ibrpg.cy.json(ibrpg.world.cy);
+    cyto.loadCyJSON(editor.storage.game.cy);
+    // update UI
+    var evtUpdateUI = new Event('update-ui');
+    window.dispatchEvent(evtUpdateUI);
+});
+
 window.addEventListener('exportit', function (e) {
     console.log("exportit called in parent js");
     filesystem.exportgame(editor.storage.game);

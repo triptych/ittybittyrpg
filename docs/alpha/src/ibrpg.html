@@ -8,6 +8,8 @@
     <script src="lib/cytoscape.min.js"></script>
     <script src="lib/jszip.min.js"></script>
     <script src="scripts/modules/editor/core.js" type="module"></script>
+    <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
+    <title>Itty Bitty RPG</title>
 </head>
 
 <body class="ibrpg">
@@ -18,29 +20,47 @@
                 <h1>Itty Bitty RPG</h1>
             </div>
             <nav>
+                <div class='nav hidden'>
+                    <button class='button blue' data-action='continue'>Continue</button>
+                </div>
                 <div class='nav'>
                     <button class="button green" data-action='new'>New</button>
                 </div>
                 <div class='nav'>
                     <button class="button purple" data-action='load'>Load</button>
                 </div>
+                <!---
                 <div class='nav'>
                     <button class="button blue" data-action='save'>Save</button>
-                </div>
+                </div> -->
                 <div class='nav'>
-                    <button class="button red" data-action='import'>Import</button>
+                    <button class="button red" data-action='import'>
+                        <input type="file" id='splashfile'/>
+                        <label for='splashfile'>Import</label>
+                    </button>
                 </div>
+                <!--
                 <div class='nav'>
                     <button class="button yellow" data-action='export'>Export</button>
                 </div>
+                -->
             </nav>
         </div>
         <div class='properties panel' data-role='properties'>
             <div class="prop-node">
                 <div>Display Node Properties</div>
                 <div class="prop-close">❌</div>
-                <div>Node name: [<span id='prop-node-name'></span>]</div>
-                <div></div>
+                <div 
+                    data-value='' 
+                    data-key='id' 
+                    data-room=''>Node name: [<span class='prop-node-display' id='prop-node-name'></span>] 
+                        </div>
+                <div 
+                    data-value='' 
+                    data-key='label' 
+                    data-room=''>Node label text: [<span class='prop-node-display' id='prop-node-label'></span>] 
+                        <button class='prop-edit' >Edit</button></div>
+                <div>Game stuff will appear here soon!</div>
             </div>
         </div>
         <div class='world panel' data-role='world'>

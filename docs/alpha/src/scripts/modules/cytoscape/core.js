@@ -66,7 +66,25 @@ let initCytoScapeListeners = () => {
   console.log('initCytoscapeListeners');
   window.addEventListener('cy-add-node', addNode, false);
   window.addEventListener('cy-elements-remove', removeElements, false);
+  window.addEventListener('cy-set-key', setKey, true);
+  window.addEventListener('cy-force-reset', resetCy, false);
 };
+let resetCy = () => {
+  console.log('resetCy called ');
+  
+  var tempJson = cy.json();
+  init();
+  //cy.destroy();
+  cy.json(tempJson);
+  //cy.forceRender();
+}
+
+let setKey = (obj) => {
+  console.log("setKey called, obj",  obj)
+  cy.getElementById(obj.detail.id).data(obj.detail.key, obj.detail.value);
+  console.log(" ***** cy element:", cy.getElementById(obj.detail.id))
+
+}
 
 let removeElements = () => {
   console.log("cytoscape - remove elements called");
@@ -80,7 +98,8 @@ let addNode = () => {
     group: 'nodes',
     data: {
       room: randomName,
-      id: randomName
+      id: randomName,
+      label: 'untitled room'
     }
   });
   cy.center();
@@ -103,8 +122,8 @@ let initCytoScapeModel = () => {
         selector: 'node',
         style: {
           shape: 'hexagon',
-          'background-color': 'tan',
-          label: 'data(id)'
+          'background-color': 'lightblue',
+          label: 'data(label)'
         },
 
       },
@@ -125,7 +144,7 @@ let initCytoScapeModel = () => {
   console.log(cy);
 
   cy.ready(function() {
-    console.log('cy.ready called');
+    console.log('cy.ready called -------------');
     bindCyNodes();
   })
 };
@@ -148,7 +167,8 @@ let bindCyNodes = () => {
         type: 'properties',
         data: {
           context: 'room',
-          target: node
+          target: node,
+          cy: cy
         }
       }
     });

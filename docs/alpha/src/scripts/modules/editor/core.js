@@ -8,6 +8,17 @@ var init = () => {
 
     bindEvents();
     initLocalStorage();
+    splashScreen();
+}
+
+var splashScreen = () => {
+    console.log("init splashscreen called");
+    var tempStorage = readFromStorage();
+    console.log("tempStorage", tempStorage);
+    var isStorageEmpty = Object.keys(tempStorage.cy).length === 0
+    if(!isStorageEmpty){
+        document.querySelector('[data-action=continue]').parentNode.classList.remove('hidden')
+    }
 }
 
 var bindEvents = () => {
@@ -113,7 +124,16 @@ var bindEvents = () => {
                 case 'new':
                     handleNewGame();
                     break;
-
+                case 'continue':
+                    handleContinueGame()
+                    break;
+                case 'load':
+                    handleLoadGame();
+                    
+                    break;
+                case 'import':
+                    handleImportGame();
+                    break;        
                 default:
                     console.log('dunno what to do?')
                     break;
@@ -137,6 +157,29 @@ var bindEvents = () => {
   
         }
       });
+
+      document.getElementById("splashfile").addEventListener("change", function(evt) {
+  
+        var files = evt.target.files;
+        for (var i = 0; i < files.length; i++) {
+          console.log("file:", files[i]);
+          //ibrpg.importWorld(files[i]);
+          var importEvt = new CustomEvent('importit', {
+              detail: files[i]
+          });
+          window.dispatchEvent(importEvt);
+          var revealEditorEvent = new CustomEvent('reveal-panel',{
+            detail: {
+                type: 'editor',
+                data: {}
+            }
+        });
+        window.dispatchEvent(revealEditorEvent);
+  
+        }
+      });
+
+
   
     // listen for the close window event on property windows
     document.querySelector('.prop-close').addEventListener('click', (evt) => {
@@ -150,9 +193,53 @@ var bindEvents = () => {
         window.dispatchEvent(revealEditorEvent);
     })
     
+    // properties edit listeners
+    document.getElementsByClassName('properties')[0].addEventListener('click', (evt)=> {
+        console.log('property edit click ---- evt', evt);
+        console.log('property key', evt.target.parentNode.dataset['key']);
+        switch (evt.target.parentNode.dataset['key']) {
+            case 'label':
+            case 'id':
+                console.log('prop edit key')
+                var oldValue = evt.target.parentNode.dataset['value'];
+                var newValue = window.prompt("New value: ", oldValue);
+                evt.target.parentNode.dataset['value'] = newValue;
+                evt.target.parentNode.querySelector('.prop-node-display').innerHTML = newValue;
+
+                var setCyNodeKeyEvt = new CustomEvent('cy-set-key', {
+                    detail: {
+                        key: evt.target.parentNode.dataset['key'],
+                        value: newValue,
+                        id: evt.target.parentNode.dataset['room']
+                    }
+                });
+                window.dispatchEvent(setCyNodeKeyEvt);
+                
+                break;
+        
+            default:
+                break;
+        }
+    })
+
+
     window.addEventListener('update-ui', updateUI, false);
     window.addEventListener('set-game', setGame, true);
     window.addEventListener('reveal-panel', revealPanel, true);
+}
+
+var handleImportGame = () => {
+    // console.log('handleImportGame called');
+    // document.getElementById("file").
+
+    // return;
+    // var revealEditorEvent = new CustomEvent('reveal-panel',{
+    //     detail: {
+    //         type: 'editor',
+    //         data: {}
+    //     }
+    // });
+    // window.dispatchEvent(revealEditorEvent);
 }
 
 // pass new game request to jzip core via events
@@ -185,10 +272,31 @@ var handleSaveGame = () => {
     
 }
 
+var handleContinueGame = () => {
+    console.log("handleContinueGame called ");
+    var continueGameEvent = new Event('continueit');
+    window.dispatchEvent(continueGameEvent);
+    var revealEditorEvent = new CustomEvent('reveal-panel',{
+        detail: {
+            type: 'editor',
+            data: {}
+        }
+    });
+    window.dispatchEvent(revealEditorEvent);
+}
+
 var handleLoadGame = () => {
     console.log("handleLoadGame called");
     var loadGameEvent = new Event('loadit');
     window.dispatchEvent(loadGameEvent);
+    //revealPanel('editor');
+    var revealEditorEvent = new CustomEvent('reveal-panel',{
+        detail: {
+            type: 'editor',
+            data: {}
+        }
+    });
+    window.dispatchEvent(revealEditorEvent);
 }
 
 var handleExportGame = () => {
@@ -216,10 +324,47 @@ var revealPanel = (panelobj) => {
     switch (panelobj.detail.type) {
         case 'editor':
             console.log('editor setup?')
+            setTimeout(function(){
+                var resetcy = new Event('cy-force-reset'); 
+                window.dispatchEvent(resetcy);
+            },1005);
             break;
         case 'properties':
             console.log('properties setup?');
-            document.getElementById('prop-node-name').innerHTML = panelobj.detail.data.target.id();
+            let id = panelobj.detail.data.target.id();
+            let label = panelobj.detail.data.target.data('label');
+
+            document.getElementById('prop-node-name').innerHTML = id;
+            document.getElementById('prop-node-label').innerHTML = label;
+
+            document.querySelector('[data-key=id]').dataset.value = id;
+            document.querySelector('[data-key=id]').dataset.room =  id;
+
+            document.querySelector('[data-key=label]').dataset.value = label;
+            document.querySelector('[data-key=label]').dataset.room =  id;
+
+
+            // var nodes = `<option value='-1'>choose a node</option>`;
+            // var edges = ``;
+            // console.log("panelobj: ", panelobj);
+            // console.log("nodes: id", panelobj.detail.data.cy.nodes());
+            // console.log("filer on node: ", panelobj.detail.data.cy.filter("node"));
+            // panelobj.detail.data.cy.nodes().each(function(itm,idx,coll){
+            //     console.log("ele id:", itm.id());
+                
+            //     nodes += `<option value='${itm.id()}'>${itm.id()}</option>`;
+            // });
+
+            // panelobj.detail.data.cy.edges().each(function(itm, idx, coll){
+            //     console.log("ele id:", itm.id());
+            //     console.log("edge obj:", itm);
+            //     edges += `<li> 
+            //     Edge [${itm.id()}] 
+            //     from [${itm.data('source')}] 
+            //     to [${itm.data('target')}] -- 
+            //     (<span class='del-edge' data-edge='${itm.id()}'>Delete</span>)</li>`;
+            // });
+
             break;
         default:
             break;
