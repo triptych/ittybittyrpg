@@ -335,7 +335,8 @@ nav div.hidden {
     padding-left: 6px;
 }
 
-#file {
+#file,
+#splashfile {
     display:none;
 }
 

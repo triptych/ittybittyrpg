@@ -132,7 +132,7 @@ var bindEvents = () => {
                     
                     break;
                 case 'import':
-                    // handleImportGame() TODO
+                    handleImportGame();
                     break;        
                 default:
                     console.log('dunno what to do?')
@@ -157,6 +157,29 @@ var bindEvents = () => {
   
         }
       });
+
+      document.getElementById("splashfile").addEventListener("change", function(evt) {
+  
+        var files = evt.target.files;
+        for (var i = 0; i < files.length; i++) {
+          console.log("file:", files[i]);
+          //ibrpg.importWorld(files[i]);
+          var importEvt = new CustomEvent('importit', {
+              detail: files[i]
+          });
+          window.dispatchEvent(importEvt);
+          var revealEditorEvent = new CustomEvent('reveal-panel',{
+            detail: {
+                type: 'editor',
+                data: {}
+            }
+        });
+        window.dispatchEvent(revealEditorEvent);
+  
+        }
+      });
+
+
   
     // listen for the close window event on property windows
     document.querySelector('.prop-close').addEventListener('click', (evt) => {
@@ -203,6 +226,20 @@ var bindEvents = () => {
     window.addEventListener('update-ui', updateUI, false);
     window.addEventListener('set-game', setGame, true);
     window.addEventListener('reveal-panel', revealPanel, true);
+}
+
+var handleImportGame = () => {
+    // console.log('handleImportGame called');
+    // document.getElementById("file").
+
+    // return;
+    // var revealEditorEvent = new CustomEvent('reveal-panel',{
+    //     detail: {
+    //         type: 'editor',
+    //         data: {}
+    //     }
+    // });
+    // window.dispatchEvent(revealEditorEvent);
 }
 
 // pass new game request to jzip core via events
