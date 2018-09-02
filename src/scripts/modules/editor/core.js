@@ -8,6 +8,17 @@ var init = () => {
 
     bindEvents();
     initLocalStorage();
+    splashScreen();
+}
+
+var splashScreen = () => {
+    console.log("init splashscreen called");
+    var tempStorage = readFromStorage();
+    console.log("tempStorage", tempStorage);
+    var isStorageEmpty = Object.keys(tempStorage.cy).length === 0
+    if(!isStorageEmpty){
+        document.querySelector('[data-action=continue]').parentNode.classList.remove('hidden')
+    }
 }
 
 var bindEvents = () => {
@@ -113,7 +124,16 @@ var bindEvents = () => {
                 case 'new':
                     handleNewGame();
                     break;
-
+                case 'continue':
+                    handleContinueGame()
+                    break;
+                case 'load':
+                    handleLoadGame();
+                    
+                    break;
+                case 'import':
+                    // handleImportGame() TODO
+                    break;        
                 default:
                     console.log('dunno what to do?')
                     break;
@@ -155,7 +175,7 @@ var bindEvents = () => {
         console.log('property edit click ---- evt', evt);
         console.log('property key', evt.target.parentNode.dataset['key']);
         switch (evt.target.parentNode.dataset['key']) {
-            case 'titletext':
+            case 'label':
             case 'id':
                 console.log('prop edit key')
                 var oldValue = evt.target.parentNode.dataset['value'];
@@ -215,10 +235,31 @@ var handleSaveGame = () => {
     
 }
 
+var handleContinueGame = () => {
+    console.log("handleContinueGame called ");
+    var continueGameEvent = new Event('continueit');
+    window.dispatchEvent(continueGameEvent);
+    var revealEditorEvent = new CustomEvent('reveal-panel',{
+        detail: {
+            type: 'editor',
+            data: {}
+        }
+    });
+    window.dispatchEvent(revealEditorEvent);
+}
+
 var handleLoadGame = () => {
     console.log("handleLoadGame called");
     var loadGameEvent = new Event('loadit');
     window.dispatchEvent(loadGameEvent);
+    //revealPanel('editor');
+    var revealEditorEvent = new CustomEvent('reveal-panel',{
+        detail: {
+            type: 'editor',
+            data: {}
+        }
+    });
+    window.dispatchEvent(revealEditorEvent);
 }
 
 var handleExportGame = () => {
@@ -254,16 +295,16 @@ var revealPanel = (panelobj) => {
         case 'properties':
             console.log('properties setup?');
             let id = panelobj.detail.data.target.id();
-            let titleText = panelobj.detail.data.target.data('titletext');
+            let label = panelobj.detail.data.target.data('label');
 
             document.getElementById('prop-node-name').innerHTML = id;
-            document.getElementById('prop-node-title').innerHTML = titleText;
+            document.getElementById('prop-node-label').innerHTML = label;
 
             document.querySelector('[data-key=id]').dataset.value = id;
             document.querySelector('[data-key=id]').dataset.room =  id;
 
-            document.querySelector('[data-key=titletext]').dataset.value = titleText;
-            document.querySelector('[data-key=titletext]').dataset.room =  id;
+            document.querySelector('[data-key=label]').dataset.value = label;
+            document.querySelector('[data-key=label]').dataset.room =  id;
 
 
             // var nodes = `<option value='-1'>choose a node</option>`;

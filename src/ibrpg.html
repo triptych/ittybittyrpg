@@ -18,21 +18,27 @@
                 <h1>Itty Bitty RPG</h1>
             </div>
             <nav>
+                <div class='nav hidden'>
+                    <button class='button blue' data-action='continue'>Continue</button>
+                </div>
                 <div class='nav'>
                     <button class="button green" data-action='new'>New</button>
                 </div>
                 <div class='nav'>
                     <button class="button purple" data-action='load'>Load</button>
                 </div>
+                <!---
                 <div class='nav'>
                     <button class="button blue" data-action='save'>Save</button>
-                </div>
+                </div> -->
                 <div class='nav'>
                     <button class="button red" data-action='import'>Import</button>
                 </div>
+                <!--
                 <div class='nav'>
                     <button class="button yellow" data-action='export'>Export</button>
                 </div>
+                -->
             </nav>
         </div>
         <div class='properties panel' data-role='properties'>
@@ -43,11 +49,11 @@
                     data-value='' 
                     data-key='id' 
                     data-room=''>Node name: [<span class='prop-node-display' id='prop-node-name'></span>] 
-                        <button class='prop-edit'>Edit</button></div>
+                        </div>
                 <div 
                     data-value='' 
-                    data-key='titletext' 
-                    data-room=''>Node title text: [<span class='prop-node-display' id='prop-node-title'></span>] 
+                    data-key='label' 
+                    data-room=''>Node label text: [<span class='prop-node-display' id='prop-node-label'></span>] 
                         <button class='prop-edit' >Edit</button></div>
                 <div>Game stuff will appear here soon!</div>
             </div>

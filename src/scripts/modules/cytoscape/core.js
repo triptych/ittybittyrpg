@@ -98,7 +98,8 @@ let addNode = () => {
     group: 'nodes',
     data: {
       room: randomName,
-      id: randomName
+      id: randomName,
+      label: 'untitled room'
     }
   });
   cy.center();
@@ -121,8 +122,8 @@ let initCytoScapeModel = () => {
         selector: 'node',
         style: {
           shape: 'hexagon',
-          'background-color': 'tan',
-          label: 'data(id)'
+          'background-color': 'lightblue',
+          label: 'data(label)'
         },
 
       },
