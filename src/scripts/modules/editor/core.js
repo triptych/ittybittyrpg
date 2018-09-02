@@ -150,6 +150,36 @@ var bindEvents = () => {
         window.dispatchEvent(revealEditorEvent);
     })
     
+    // properties edit listeners
+    document.getElementsByClassName('properties')[0].addEventListener('click', (evt)=> {
+        console.log('property edit click ---- evt', evt);
+        console.log('property key', evt.target.parentNode.dataset['key']);
+        switch (evt.target.parentNode.dataset['key']) {
+            case 'titletext':
+            case 'id':
+                console.log('prop edit key')
+                var oldValue = evt.target.parentNode.dataset['value'];
+                var newValue = window.prompt("New value: ", oldValue);
+                evt.target.parentNode.dataset['value'] = newValue;
+                evt.target.parentNode.querySelector('.prop-node-display').innerHTML = newValue;
+
+                var setCyNodeKeyEvt = new CustomEvent('cy-set-key', {
+                    detail: {
+                        key: evt.target.parentNode.dataset['key'],
+                        value: newValue,
+                        id: evt.target.parentNode.dataset['room']
+                    }
+                });
+                window.dispatchEvent(setCyNodeKeyEvt);
+                
+                break;
+        
+            default:
+                break;
+        }
+    })
+
+
     window.addEventListener('update-ui', updateUI, false);
     window.addEventListener('set-game', setGame, true);
     window.addEventListener('reveal-panel', revealPanel, true);
@@ -216,10 +246,47 @@ var revealPanel = (panelobj) => {
     switch (panelobj.detail.type) {
         case 'editor':
             console.log('editor setup?')
+            setTimeout(function(){
+                var resetcy = new Event('cy-force-reset'); 
+                window.dispatchEvent(resetcy);
+            },1005);
             break;
         case 'properties':
             console.log('properties setup?');
-            document.getElementById('prop-node-name').innerHTML = panelobj.detail.data.target.id();
+            let id = panelobj.detail.data.target.id();
+            let titleText = panelobj.detail.data.target.data('titletext');
+
+            document.getElementById('prop-node-name').innerHTML = id;
+            document.getElementById('prop-node-title').innerHTML = titleText;
+
+            document.querySelector('[data-key=id]').dataset.value = id;
+            document.querySelector('[data-key=id]').dataset.room =  id;
+
+            document.querySelector('[data-key=titletext]').dataset.value = titleText;
+            document.querySelector('[data-key=titletext]').dataset.room =  id;
+
+
+            // var nodes = `<option value='-1'>choose a node</option>`;
+            // var edges = ``;
+            // console.log("panelobj: ", panelobj);
+            // console.log("nodes: id", panelobj.detail.data.cy.nodes());
+            // console.log("filer on node: ", panelobj.detail.data.cy.filter("node"));
+            // panelobj.detail.data.cy.nodes().each(function(itm,idx,coll){
+            //     console.log("ele id:", itm.id());
+                
+            //     nodes += `<option value='${itm.id()}'>${itm.id()}</option>`;
+            // });
+
+            // panelobj.detail.data.cy.edges().each(function(itm, idx, coll){
+            //     console.log("ele id:", itm.id());
+            //     console.log("edge obj:", itm);
+            //     edges += `<li> 
+            //     Edge [${itm.id()}] 
+            //     from [${itm.data('source')}] 
+            //     to [${itm.data('target')}] -- 
+            //     (<span class='del-edge' data-edge='${itm.id()}'>Delete</span>)</li>`;
+            // });
+
             break;
         default:
             break;
