@@ -13,12 +13,14 @@ const Constants = {
 import editor from './modules/editor/core.js';
 import cyto from './modules/cytoscape/core.js';
 import filesystem from './modules/jszip/core.js';
+import tiles from './modules/tileset/core.js';
 
 // init stuff when page is loaded -- components
 window.addEventListener("load", function (e) {
     editor.init();
     cyto.init();
     filesystem.init();
+    tiles.init();
     //console.log("editor", editor);
 });
 
