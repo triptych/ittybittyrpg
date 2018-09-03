@@ -8,7 +8,7 @@
     <script src="lib/cytoscape.min.js"></script>
     <script src="lib/jszip.min.js"></script>
     <script src="scripts/modules/editor/core.js" type="module"></script>
-    <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
+    <link rel="shortcut icon" type="image/png" href="assets/favicon.ico" />
     <title>Itty Bitty RPG</title>
 </head>
 
@@ -35,7 +35,7 @@
                 </div> -->
                 <div class='nav'>
                     <button class="button red" data-action='import'>
-                        <input type="file" id='splashfile'/>
+                        <input type="file" id='splashfile' />
                         <label for='splashfile'>Import</label>
                     </button>
                 </div>
@@ -50,17 +50,18 @@
             <div class="prop-node">
                 <div>Display Node Properties</div>
                 <div class="prop-close">❌</div>
-                <div 
-                    data-value='' 
-                    data-key='id' 
-                    data-room=''>Node name: [<span class='prop-node-display' id='prop-node-name'></span>] 
-                        </div>
-                <div 
-                    data-value='' 
-                    data-key='label' 
-                    data-room=''>Node label text: [<span class='prop-node-display' id='prop-node-label'></span>] 
-                        <button class='prop-edit' >Edit</button></div>
-                <div>Game stuff will appear here soon!</div>
+                <div data-value='' data-key='id' data-room=''>
+                    Node name: [<span class='prop-node-display' id='prop-node-name'></span>]
+                </div>
+                <div data-value='' data-key='label' data-room=''>
+                    Node label text: [<span class='prop-node-display' id='prop-node-label'></span>]
+                    <button class='prop-edit'>Edit</button></div>
+                <div>
+                    <div data-key='tileset'>
+                        Add Tileset
+                        <button class='prop-edit'>ADD</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class='world panel' data-role='world'>
@@ -103,7 +104,7 @@
             <div class="info">
                 <span class="label">Name:</span><span id="game_name"></span>
                 <span id="dlbutton"></span>
-                -- 
+                --
                 <span><button id="add_node">[+]</button></span>
             </div>
             <div class="grid" id="grid">
@@ -113,11 +114,9 @@
         <div class='inspector panel' data-role='inspector'>
             [[ This panel is to inspect a node]]
         </div>
-        </panels>
+    </div>
 
-
-
-        <script src="scripts/ibrpg.js" type="module"></script>
+    <script src="scripts/ibrpg.js" type="module"></script>
 </body>
 
 </html>

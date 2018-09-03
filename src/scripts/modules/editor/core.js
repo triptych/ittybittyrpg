@@ -16,7 +16,7 @@ var splashScreen = () => {
     var tempStorage = readFromStorage();
     console.log("tempStorage", tempStorage);
     var isStorageEmpty = Object.keys(tempStorage.cy).length === 0
-    if(!isStorageEmpty){
+    if (!isStorageEmpty) {
         document.querySelector('[data-action=continue]').parentNode.classList.remove('hidden')
     }
 }
@@ -54,7 +54,7 @@ var bindEvents = () => {
                 break;
             case 'file-import':
                 console.log("menu: file-import clicked");
-                
+
                 break;
             case 'file-export':
                 console.log("menu: file-export clicked");
@@ -129,11 +129,11 @@ var bindEvents = () => {
                     break;
                 case 'load':
                     handleLoadGame();
-                    
+
                     break;
                 case 'import':
                     handleImportGame();
-                    break;        
+                    break;
                 default:
                     console.log('dunno what to do?')
                     break;
@@ -144,47 +144,47 @@ var bindEvents = () => {
     });
 
     // listen for the import file event
-    document.getElementById("file").addEventListener("change", function(evt) {
-  
+    document.getElementById("file").addEventListener("change", function (evt) {
+
         var files = evt.target.files;
         for (var i = 0; i < files.length; i++) {
-          console.log("file:", files[i]);
-          //ibrpg.importWorld(files[i]);
-          var importEvt = new CustomEvent('importit', {
-              detail: files[i]
-          });
-          window.dispatchEvent(importEvt);
-  
-        }
-      });
+            console.log("file:", files[i]);
+            //ibrpg.importWorld(files[i]);
+            var importEvt = new CustomEvent('importit', {
+                detail: files[i]
+            });
+            window.dispatchEvent(importEvt);
 
-      document.getElementById("splashfile").addEventListener("change", function(evt) {
-  
+        }
+    });
+
+    document.getElementById("splashfile").addEventListener("change", function (evt) {
+
         var files = evt.target.files;
         for (var i = 0; i < files.length; i++) {
-          console.log("file:", files[i]);
-          //ibrpg.importWorld(files[i]);
-          var importEvt = new CustomEvent('importit', {
-              detail: files[i]
-          });
-          window.dispatchEvent(importEvt);
-          var revealEditorEvent = new CustomEvent('reveal-panel',{
-            detail: {
-                type: 'editor',
-                data: {}
-            }
-        });
-        window.dispatchEvent(revealEditorEvent);
-  
+            console.log("file:", files[i]);
+            //ibrpg.importWorld(files[i]);
+            var importEvt = new CustomEvent('importit', {
+                detail: files[i]
+            });
+            window.dispatchEvent(importEvt);
+            var revealEditorEvent = new CustomEvent('reveal-panel', {
+                detail: {
+                    type: 'editor',
+                    data: {}
+                }
+            });
+            window.dispatchEvent(revealEditorEvent);
+
         }
-      });
+    });
 
 
-  
+
     // listen for the close window event on property windows
     document.querySelector('.prop-close').addEventListener('click', (evt) => {
         // you never "close" a dialog, you just go to another one. They all get closed.
-        var revealEditorEvent = new CustomEvent('reveal-panel',{
+        var revealEditorEvent = new CustomEvent('reveal-panel', {
             detail: {
                 type: 'editor',
                 data: {}
@@ -192,9 +192,9 @@ var bindEvents = () => {
         });
         window.dispatchEvent(revealEditorEvent);
     })
-    
+
     // properties edit listeners
-    document.getElementsByClassName('properties')[0].addEventListener('click', (evt)=> {
+    document.getElementsByClassName('properties')[0].addEventListener('click', (evt) => {
         console.log('property edit click ---- evt', evt);
         console.log('property key', evt.target.parentNode.dataset['key']);
         switch (evt.target.parentNode.dataset['key']) {
@@ -214,10 +214,15 @@ var bindEvents = () => {
                     }
                 });
                 window.dispatchEvent(setCyNodeKeyEvt);
-                
+
                 break;
-        
+            case 'tileset':
+                console.log('clicked to trigger tile editor');
+                var triggerTileSetEvt = new Event('tileset-trigger');
+                window.dispatchEvent(triggerTileSetEvt);
+                break;    
             default:
+                console.log('clicked on something I dont know');
                 break;
         }
     })
@@ -251,7 +256,7 @@ var handleNewGame = () => {
     window.dispatchEvent(newGameEvent);
 
     //revealPanel('editor');
-    var revealEditorEvent = new CustomEvent('reveal-panel',{
+    var revealEditorEvent = new CustomEvent('reveal-panel', {
         detail: {
             type: 'editor',
             data: {}
@@ -269,14 +274,14 @@ var handleSaveGame = () => {
     //console.log(this);
     //console.log(storage);
 
-    
+
 }
 
 var handleContinueGame = () => {
     console.log("handleContinueGame called ");
     var continueGameEvent = new Event('continueit');
     window.dispatchEvent(continueGameEvent);
-    var revealEditorEvent = new CustomEvent('reveal-panel',{
+    var revealEditorEvent = new CustomEvent('reveal-panel', {
         detail: {
             type: 'editor',
             data: {}
@@ -290,7 +295,7 @@ var handleLoadGame = () => {
     var loadGameEvent = new Event('loadit');
     window.dispatchEvent(loadGameEvent);
     //revealPanel('editor');
-    var revealEditorEvent = new CustomEvent('reveal-panel',{
+    var revealEditorEvent = new CustomEvent('reveal-panel', {
         detail: {
             type: 'editor',
             data: {}
@@ -324,10 +329,10 @@ var revealPanel = (panelobj) => {
     switch (panelobj.detail.type) {
         case 'editor':
             console.log('editor setup?')
-            setTimeout(function(){
-                var resetcy = new Event('cy-force-reset'); 
+            setTimeout(function () {
+                var resetcy = new Event('cy-force-reset');
                 window.dispatchEvent(resetcy);
-            },1005);
+            }, 1005);
             break;
         case 'properties':
             console.log('properties setup?');
@@ -338,10 +343,10 @@ var revealPanel = (panelobj) => {
             document.getElementById('prop-node-label').innerHTML = label;
 
             document.querySelector('[data-key=id]').dataset.value = id;
-            document.querySelector('[data-key=id]').dataset.room =  id;
+            document.querySelector('[data-key=id]').dataset.room = id;
 
             document.querySelector('[data-key=label]').dataset.value = label;
-            document.querySelector('[data-key=label]').dataset.room =  id;
+            document.querySelector('[data-key=label]').dataset.room = id;
 
 
             // var nodes = `<option value='-1'>choose a node</option>`;
@@ -351,7 +356,7 @@ var revealPanel = (panelobj) => {
             // console.log("filer on node: ", panelobj.detail.data.cy.filter("node"));
             // panelobj.detail.data.cy.nodes().each(function(itm,idx,coll){
             //     console.log("ele id:", itm.id());
-                
+
             //     nodes += `<option value='${itm.id()}'>${itm.id()}</option>`;
             // });
 
@@ -368,13 +373,13 @@ var revealPanel = (panelobj) => {
             break;
         default:
             break;
-    }    
+    }
     setTimeout(function () {
         // document.querySelectorAll(".panels .panel"+ "." + panelname)[1].classList.remove('hidden');
         // document.querySelectorAll(".panels .panel"+"." + panelname)[1].classList.add('visible');
         console.log('in revealpanel panelobj.type:', panelobj.type);
         var panel = document.querySelector('[data-role=' + panelobj.detail.type + ']');
-        console.log('in revealpanel panel:',panel);
+        console.log('in revealpanel panel:', panel);
         panel.classList.remove('hidden');
         panel.classList.add('visible');
     }, 1001);
@@ -394,7 +399,7 @@ var updateUI = () => {
     var gameName = storage.game.name;
     console.log("game name : ", gameName);
     document.querySelector('#game_name').innerHTML = gameName;
-    
+
 }
 
 
@@ -421,10 +426,10 @@ var readFromStorage = () => {
 }
 
 var writeToStorage = (data) => {
-    console.log("trying to write to memory storage, data", data); 
+    console.log("trying to write to memory storage, data", data);
     storage.game = data;
     var store = window.localStorage;
-    if(store) {
+    if (store) {
         store.setItem('ibrpg', JSON.stringify(storage.game));
     }
 }
