@@ -9,6 +9,27 @@ let panel = `
 </div>
 `;
 
+let panelCSS = `
+<style>
+div[data-role=tileset] {
+    display:flex;
+    flex-direction: row;
+    background-color: darkseagreen;
+    color: midnightblue;
+    width: 96vw;
+    border-radius: 10px;
+    padding: 4px;
+}
+
+div[data-role=tileset] .tileset-pallette {
+    flex-grow: 1;
+}
+div[data-role=tileset] .tileset-view {
+    flex-grow: 3;
+}
+</style>
+`
+
 let init = () => {
     console.log("tileset init called ");
     //injectPanel(domObj);
@@ -17,6 +38,7 @@ let init = () => {
 let injectPanel = (obj) => {
     console.log('injectPanel called')
     obj.insertAdjacentHTML('beforeend', panel);
+    obj.insertAdjacentHTML('beforebegin',panelCSS);
 }
 
 let bindPanelEvents = () => {
