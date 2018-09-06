@@ -1,11 +1,16 @@
 /** Tileset code */
 
 let tileset = {};
+let view = {};
 
 let panel = `
 <div class='tileset panel' data-role='tileset'>
-    <div class='tileset-pallette'>[pallette]</div>
-    <div class='tileset-view'>[tileset]</div>
+    <div class='tileset-pallette'>
+        <canvas id='tileset-canvas'></canvas>
+    </div>
+    <div class='tileset-view'>
+        <canvas id='tileset-view'></canvas>
+    </div>
 </div>
 `;
 
@@ -32,13 +37,15 @@ div[data-role=tileset] .tileset-view {
 
 let init = () => {
     console.log("tileset init called ");
-    //injectPanel(domObj);
+    //initPallette();
     bindEvents();
+
 }
 let injectPanel = (obj) => {
     console.log('injectPanel called')
     obj.insertAdjacentHTML('beforeend', panel);
     obj.insertAdjacentHTML('beforebegin',panelCSS);
+    initView();
 }
 
 let bindPanelEvents = () => {
@@ -62,6 +69,44 @@ let bindEvents = () => {
           });
           window.dispatchEvent(openTileSetEvt);
     })
+}
+
+let initView = () => {
+    console.log("initView called");
+    kontra.init('tileset-view');
+    view = kontra.tileEngine({
+        // tile size
+        tileWidth:16,
+        tileHeight: 16,
+
+        // map size in tiles
+        width: 9,
+        height: 9
+    });
+    let img = document.createElement('img');
+    img.src = "/src/tilesets/16x16tinyrpg/basictiles.png";
+    img.onload = function() {
+        view.addTilesets({
+          image: img
+        });
+        // Add the following:
+  view.addLayers({
+    name: 'ground',
+    data: [ 0,  0,  0,  0,  0,  0,  0,  0,  0,
+            0,  0,  6,  7,  7,  8,  0,  0,  0,
+            0,  6,  27, 24, 24, 25, 0,  0,  0,
+            0,  23, 24, 24, 24, 26, 8,  0,  0,
+            0,  23, 24, 24, 24, 24, 26, 8,  0,
+            0,  23, 24, 24, 24, 24, 24, 25, 0,
+            0,  40, 41, 41, 10, 24, 24, 25, 0,
+            0,  0,  0,  0,  40, 41, 41, 42, 0,
+            0,  0,  0,  0,  0,  0,  0,  0,  0 ]
+
+  });
+
+  view.render();
+
+      };
 }
 
 
