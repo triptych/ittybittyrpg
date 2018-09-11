@@ -98,27 +98,27 @@ let initView = () => {
     let img = document.createElement('img');
     img.src = "/src/tilesets/dungeoncrawl/DungeonCrawl_ProjectUtumnoTileset.png";
     img.onload = function() {
-panel.addTilesets({
-    image:img
-});
+    panel.addTilesets({
+        image:img
+    });
 
 
- var list = [];
- var lowEnd = 0;
- var highEnd = 320;
-for (var i = lowEnd; i <= highEnd; i++) {
-    list.push(i);
-}
+    var list = [];
+    var lowEnd = 0;
+    var highEnd = 320;
+    for (var i = lowEnd; i <= highEnd; i++) {
+        list.push(i);
+    }
 
-panel.addLayers({
-    name: 'picker',
-    data: list
-})
-panel.render();
+    panel.addLayers({
+        name: 'picker',
+        data: list
+    })
+    panel.render();
 
-        view.addTilesets({
-          image: img
-        });
+    view.addTilesets({
+        image: img
+    });
 
         
         // Add the following:
