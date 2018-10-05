@@ -1,0 +1,358 @@
+/* styles for IttyBitty RPG */
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+@font-face {
+    font-family: 'Tauri';
+    src: url('../assets/Tauri/Tauri-Regular.ttf');
+}
+
+:root {
+    --main-bg-color: #847bba;
+    --secondary-bg-color: #7568ba;
+    --box-shadow-main-color: #655aa1;
+    --box-shadow-secondary-color: #948dba;
+}
+
+.purple {
+    --main-bg-color: #847bba;
+    --secondary-bg-color: #7568ba;
+    --box-shadow-main-color: #655aa1;
+    --box-shadow-secondary-color: #948dba;
+}
+
+.green {
+    --main-bg-color: #97cc76;
+    --secondary-bg-color: #8bcc62;
+    --box-shadow-main-color: #79b356;
+    --box-shadow-secondary-color: #a4cc8b;
+}
+
+.blue {
+    --main-bg-color: #42b0e3;
+    --secondary-bg-color: #2ba9e3;
+    --box-shadow-main-color: #2696c9;
+    --box-shadow-secondary-color: #59b7e3;
+}
+
+.red {
+    --main-bg-color: #ed6d64;
+    --secondary-bg-color: #ed574c;
+    --box-shadow-main-color: #ffb0aa;
+    --box-shadow-secondary-color: #ed837b;
+}
+
+.yellow {
+    --main-bg-color: #fce374;
+    --secondary-bg-color: #fcdf5b;
+    --box-shadow-main-color: #fff6ce;
+    --box-shadow-secondary-color: #fce88d;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background: radial-gradient(#333, #111);
+    overflow: hidden;
+    color: white;
+    font-family: 'Tauri';
+}
+
+.panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.6s, opacity 1s;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s 0.6s, opacity 1s;
+}
+
+
+h1 {
+    transform: rotate(-3deg);
+    background: linear-gradient(45deg, #a875ec 20%, #ff6b7c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.5));
+    text-outline: 1px solid black;
+    font-size: 50px;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.button {
+    background-color: #f2f2f2;
+    background-image: linear-gradient(to bottom, #f2f2f2, #f2f2f2);
+    border: 1px solid #bfbfbf;
+    box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #d9d9d9, inset 0 0 0 1px #f2f2f2, 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: #8c8c8c;
+    xtext-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25), -2px 0 1px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    xfont-family: Verdana, sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 16px 28px 18px;
+    margin: 16px 0 0 16px;
+    xtransition: all 20ms ease-out;
+    vertical-align: top;
+}
+
+.button:hover,
+.button:focus {
+    background: #f2f2f2;
+    border-color: #8c8c8c;
+    box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #d9d9d9, inset 0 0 0 1px #f2f2f2;
+}
+
+.button:active {
+    background: #f2f2f2;
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+nav button.button {
+    background-color: var(--main-bg-color-purple);
+    background-image: linear-gradient(to bottom, var(--main-bg-color), var(--secondary-bg-color));
+    border: 1px solid #493e87;
+    box-shadow: inset 0 1px 0 #bab6d4, inset 0 -1px 0 var(--box-shadow-main-color), inset 0 0 0 1px var(--box-shadow-secondary-color), 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+nav button.button:hover,
+nav button.button:focus {
+    background: var(--secondary-bg-color);
+    border-color: #1f1654;
+    box-shadow: inset 0 1px 0 #bab6d4, inset 0 -1px 0 var(--box-shadow-main-color), inset 0 0 0 1px var(--box-shadow-secondary-color);
+}
+
+nav button.button:active {
+    background: var(--secondary-bg-color);
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes wiggle {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    33% {
+        -webkit-transform: rotate(10deg);
+    }
+    66% {
+        -webkit-transform: rotate(-10deg);
+    }
+    to {
+        -webkit-transform: rotate(0deg);
+    }
+}
+
+@keyframes throb {
+    from {
+        -webkit-transform: scale(1);
+    }
+    33% {
+        -webkit-transform: scale(1.2);
+    }
+    66% {
+        -webkit-transform: scale(1.2);
+    }
+    to {
+        -webkit-transform: scale(1);
+    }
+}
+
+@keyframes colorcycle {
+    0% {
+        color: red;
+    }
+    20% {
+        color: green;
+    }
+    40% {
+        color: orange;
+    }
+    60% {
+        color: purple;
+    }
+    80% {
+        color: yellow;
+    }
+    100% {
+        color: blue;
+    }
+}
+
+.sliding {
+    animation-name: "bgslide";
+    animation-duration: 300s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes bgslide {
+    from {
+        background-position: 0px 0px;
+        -webkit-animation-timing-function: linear;
+    }
+    25% {
+        background-position: -1000px 1000px;
+        -webkit-animation-timing-function: linear;
+    }
+    50% {
+        background-position: 0px 0px;
+        -webkit-animation-timing-function: linear;
+    }
+    75% {
+        background-position: 1000px -1000px;
+        -webkit-animation-timing-function: linear;
+    }
+    to {
+        background-position: 0px 0px;
+        -webkit-animation-timing-function: linear;
+    }
+}
+
+.hovering {
+    animation-name: wiggle;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+}
+
+.throbbing {
+    animation-name: throb;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+}
+
+nav .nav {
+    display: flex;
+}
+
+nav .nav .button {
+    flex-grow: 2;
+}
+
+.hidden, 
+nav div.hidden {
+    display: none;
+}
+
+/** toolbar **/
+
+.toolbar {
+    background-color: #eee;
+    color: #000;
+    border-radius: 10px;
+    width: 98vw;
+    z-index: 100;
+}
+
+.toolbar>ul {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.toolbar ul {
+    margin: 0px;
+}
+
+.toolbar ul li {
+    list-style-type: none;
+    cursor: pointer;
+    padding-right: 5vw;
+    position: relative;
+}
+
+.toolbar>ul>li>ul {
+    position: absolute;
+    display: none;
+    align-items: flex-start;
+    flex-direction: column;
+    background-color: lightgrey;
+    padding: 20px 10px;
+    border-radius: 5px;
+}
+
+.toolbar>ul>li>ul.active {
+    display: flex;
+}
+
+.toolbar>ul>li>ul>li {
+    padding: 10px;
+}
+
+/* cytoscape */
+
+.ibrpg .grid {
+    height: 75vh;
+    width: 98vw;
+    background-color: white;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 64px, #CCC 64px, #CCC 65px), repeating-linear-gradient(-90deg, transparent, transparent 64px, #CCC 64px, #CCC 65px);
+    background-size: 65px 65px;
+    margin: 4px;
+    border-radius: 10px;
+}
+
+.ibrpg .info {
+    border-radius: 10px;
+    background-color: tan;
+    width: 98vw;
+    margin: 4px;
+    padding: 2px;
+    color: black;
+}
+
+.info .label {
+    padding-left: 6px;
+}
+
+#file,
+#splashfile {
+    display:none;
+}
+
+.ibrpg .panel .prop-node {
+    background-color: lightblue;
+    width: 98vw;
+    margin: 4px;
+    padding: 4px;
+    color: black;
+    border-radius:  10px;
+    position: relative;
+}
+
+.prop-node .prop-close {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    cursor: pointer;
+}

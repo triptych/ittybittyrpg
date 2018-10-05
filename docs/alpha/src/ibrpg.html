@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="style/ibrpg.css">
+    <script src="lib/cytoscape.min.js"></script>
+    <script src="lib/jszip.min.js"></script>
+    <script src="scripts/modules/editor/core.js" type="module"></script>
+    <link rel="shortcut icon" type="image/png" href="assets/favicon.ico" />
+    <title>Itty Bitty RPG</title>
+</head>
+
+<body class="ibrpg">
+
+    <div class='panels'>
+        <div class='intro panel visible'>
+            <div class='title'>
+                <h1>Itty Bitty RPG</h1>
+            </div>
+            <nav>
+                <div class='nav hidden'>
+                    <button class='button blue' data-action='continue'>Continue</button>
+                </div>
+                <div class='nav'>
+                    <button class="button green" data-action='new'>New</button>
+                </div>
+                <div class='nav'>
+                    <button class="button purple" data-action='load'>Load</button>
+                </div>
+                <!---
+                <div class='nav'>
+                    <button class="button blue" data-action='save'>Save</button>
+                </div> -->
+                <div class='nav'>
+                    <button class="button red" data-action='import'>
+                        <input type="file" id='splashfile' />
+                        <label for='splashfile'>Import</label>
+                    </button>
+                </div>
+                <!--
+                <div class='nav'>
+                    <button class="button yellow" data-action='export'>Export</button>
+                </div>
+                -->
+            </nav>
+        </div>
+        <div class='properties panel' data-role='properties'>
+            <div class="prop-node">
+                <div>Display Node Properties</div>
+                <div class="prop-close">❌</div>
+                <div data-value='' data-key='id' data-room=''>
+                    Node name: [<span class='prop-node-display' id='prop-node-name'></span>]
+                </div>
+                <div data-value='' data-key='label' data-room=''>
+                    Node label text: [<span class='prop-node-display' id='prop-node-label'></span>]
+                    <button class='prop-edit'>Edit</button></div>
+                <div>
+                    <div data-key='tileset'>
+                        Add Tileset
+                        <button class='prop-edit'>ADD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='world panel' data-role='world'>
+            [[ This is the world panel for preview. ]]
+        </div>
+        <div class='editor panel' data-role='editor'>
+            <!--[[ This is the editor panel for building stuff.]] -->
+            <div class='toolbar'>
+                <ul>
+                    <li>
+                        <span data-type='file'>File</span>
+                        <ul>
+                            <li>
+                                <span data-type='file-new'>New</span>
+                            </li>
+                            <li>
+                                <span data-type='file-load'>Load</span>
+                            </li>
+                            <li>
+                                <span data-type='file-save'>Save</span>
+                            </li>
+                            <li>
+                                <span data-type='file-export'>Export</span>
+                            </li>
+                            <li>
+                                <span data-type='file-import'><input type="file" id="file" name="file" /><label for="file">Import</label></span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span data-type="view">View</span>
+                        <ul>
+                            <li>
+                                <span data-type='view-preview'>Preview</span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="info">
+                <span class="label">Name:</span><span id="game_name"></span>
+                <span id="dlbutton"></span>
+                --
+                <span><button id="add_node">[+]</button></span>
+            </div>
+            <div class="grid" id="grid">
+
+            </div>
+        </div>
+        <div class='inspector panel' data-role='inspector'>
+            [[ This panel is to inspect a node]]
+        </div>
+    </div>
+
+    <script src="scripts/ibrpg.js" type="module"></script>
+</body>
+
+</html>
