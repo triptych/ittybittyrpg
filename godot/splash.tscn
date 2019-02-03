@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://splash.gd" type="Script" id=1]
+
+[sub_resource type="Theme" id=1]
+
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 1 )
+script = ExtResource( 1 )
+
+[node name="LabelIttyBittyRPG" type="Label" parent="."]
+margin_left = 3.52112
+margin_top = 88.0284
+margin_right = 1027.52
+margin_bottom = 119.028
+text = "Itty Bitty RPG
+"
+align = 1
+
+[node name="ButtonNew" type="Button" parent="."]
+margin_left = 447.591
+margin_top = 145.582
+margin_right = 570.591
+margin_bottom = 165.582
+text = "New"
+
+[node name="ButtonOpen" type="Button" parent="."]
+margin_left = 448.094
+margin_top = 185.823
+margin_right = 571.094
+margin_bottom = 205.823
+text = "Open"
+
+[node name="ButtonQuit" type="Button" parent="."]
+margin_left = 449.1
+margin_top = 245.682
+margin_right = 572.1
+margin_bottom = 265.682
+text = "Quit"
+
+[connection signal="pressed" from="ButtonNew" to="." method="_on_ButtonNew_pressed"]
+[connection signal="pressed" from="ButtonOpen" to="." method="_on_ButtonOpen_pressed"]
+[connection signal="pressed" from="ButtonQuit" to="." method="_on_ButtonQuit_pressed"]
